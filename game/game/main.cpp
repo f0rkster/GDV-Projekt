@@ -7,6 +7,7 @@
 
 #include "CBullet.h"
 #include "CPlayer.h"
+#include "CShield.h"
 
 #include "SKeyState.h"
 
@@ -29,15 +30,13 @@ namespace
 
         BHandle     m_pBulletMesh;
         BHandle     m_pPlayerMesh;
+        BHandle     m_pShieldMesh;
 
         CBullet     m_Bullet;
         CPlayer     m_Player;
+        CShield     m_Shields[3];
 
         SKeyState   m_KeyState;
-
-    private:
-        void CreateBullet(BHandle* _ppMesh);
-        void CreatePlayer(BHandle* _ppMesh);
 
 
     private:
@@ -60,6 +59,7 @@ namespace
         : m_FieldOfViewY    (60.0f)
         , m_pBulletMesh     (nullptr)
         , m_pPlayerMesh     (nullptr)
+        , m_pShieldMesh     (nullptr)
         , m_Bullet          ()
         , m_Player          ()
         , m_KeyState        ()
@@ -133,6 +133,11 @@ namespace
         m_Bullet.CreateBullet(&m_pBulletMesh);
         m_Player.CreatePlayer(&m_pPlayerMesh);
 
+        for(CShield shield : m_Shields)
+        {
+            shield.CreateShield(&m_pShieldMesh);
+        }
+
         return true;
     }
 
@@ -145,7 +150,7 @@ namespace
         // -----------------------------------------------------------------------------
         ReleaseMesh(m_pBulletMesh);
         ReleaseMesh(m_pPlayerMesh);
-
+        ReleaseMesh(m_pShieldMesh);
 
         return true;
     }
@@ -154,20 +159,21 @@ namespace
 
     bool CApplication::InternOnResize(int _Width, int _Height)
     {
+        ////Ortogonal Camera
+        //float zNear = 0.1f;
+        //float zFar  = 100.0f;
+        //float zoom  = 50.0f;
+        //
+        //float ProjectionMatrix[16] =
+        //{
+        //    zoom/_Width,    0,              0,                      0,
+        //    0,              zoom/_Height,   0,                      0,
+        //    0,              0,              1.0f/(zFar - zNear),    0,
+        //    0,              0,              zNear / (zNear - zFar), 1,
+        //};
 
-        float zNear = 0.1f;
-        float zFar  = 100.0f;
-        float zoom  = 50.0f;
-
-        float ProjectionMatrix[16] =
-        {
-            zoom/_Width,    0,              0,                      0,
-            0,              zoom/_Height,   0,                      0,
-            0,              0,              1.0f/(zFar - zNear),    0,
-            0,              0,              zNear / (zNear - zFar), 1,
-        };
-
-        // GetProjectionMatrix(m_FieldOfViewY, static_cast<float>(_Width) / static_cast<float>(_Height), 0.1f, 100.0f, ProjectionMatrix);
+        float ProjectionMatrix[16];
+        GetProjectionMatrix(m_FieldOfViewY, static_cast<float>(_Width) / static_cast<float>(_Height), 0.1f, 100.0f, ProjectionMatrix);
 
 
         SetProjectionMatrix(ProjectionMatrix);
@@ -179,22 +185,22 @@ namespace
 
     bool CApplication::InternOnUpdate()
     {
-        //float Eye[3];
-        //float At[3];
-        //float Up[3];
-        //
-        //float ViewMatrix[16];
-        //
-        //// -----------------------------------------------------------------------------
-        //// Define position and orientation of the camera in the world.
-        //// -----------------------------------------------------------------------------
-        //Eye[0] = 0.0f; At[0] = 0.0f; Up[0] = 0.0f;
-        //Eye[1] = 0.0f; At[1] = 0.0f; Up[1] = 1.0f;
-        //Eye[2] = -8.0f; At[2] = 0.0f; Up[2] = 0.0f;
-        //
-        //GetViewMatrix(Eye, At, Up, ViewMatrix);
-        //
-        //SetViewMatrix(ViewMatrix);
+        float Eye[3];
+        float At[3];
+        float Up[3];
+        
+        float ViewMatrix[16];
+        
+        // -----------------------------------------------------------------------------
+        // Define position and orientation of the camera in the world.
+        // -----------------------------------------------------------------------------
+        Eye[0] = 0.0f; At[0] = 0.0f; Up[0] = 0.0f;
+        Eye[1] = 0.0f; At[1] = 0.0f; Up[1] = 1.0f;
+        Eye[2] = -20.0f; At[2] = 0.0f; Up[2] = 0.0f;
+        
+        GetViewMatrix(Eye, At, Up, ViewMatrix);
+        
+        SetViewMatrix(ViewMatrix);
         m_Bullet.OnUpdate();
         m_Player.OnUpdate(m_KeyState);
 
@@ -222,6 +228,21 @@ namespace
         SetWorldMatrix(WorldMatrix);
 
         DrawMesh(m_pBulletMesh);
+
+        float xPos = -10.0f;
+        for (CShield shield : m_Shields)
+        {
+                shield.m_Translation[0] = xPos;
+
+                GetTranslationMatrix(shield.m_Translation[0], shield.m_Translation[1], 0.0f, WorldMatrix);
+
+                SetWorldMatrix(WorldMatrix);
+
+                DrawMesh(m_pShieldMesh);
+
+                xPos += 10;
+        }
+
 
         return true;
     }

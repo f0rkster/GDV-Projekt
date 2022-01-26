@@ -1,37 +1,37 @@
-#include "yoshix_fix_function.h"
+#include "CShield.h"
 
-#include "CBullet.h"
+CShield::CShield()
+{
 
-CBullet::CBullet() {
-    m_Speed = 1.0f;
-    m_State = CBullet::Idle;
-    m_Translation[0] = 0.0f;
-    m_Translation[1] = 0.0f;
-    m_Translation[2] = 0.0f;
+	m_Health = 5;
+
+    m_Translation[1] = -5.0f;
+
+	m_State  = CShield::Idle;
 }
 
-void CBullet::CreateBullet(gfx::BHandle* _ppMesh)
+void CShield::CreateShield(gfx::BHandle* _ppMesh)
 {
     // -----------------------------------------------------------------------------
     // Define the vertices of the mesh and their attributes.
     // -----------------------------------------------------------------------------
 
-    static float s_Size = 0.1;
+    static float s_Size = 1.0f;
 
     static float s_BulletVertices[][3] =
     {
-        { -1.0f * s_Size, -3.0f * s_Size, 0.0f * s_Size, },
-        {  1.0f * s_Size, -3.0f * s_Size, 0.0f * s_Size, },
-        {  1.0f * s_Size,  3.0f * s_Size, 0.0f * s_Size, },
-        { -1.0f * s_Size,  3.0f * s_Size, 0.0f * s_Size, },
+        { -3.0f * s_Size, -1.0f * s_Size, 0.0f * s_Size, },
+        {  3.0f * s_Size, -1.0f * s_Size, 0.0f * s_Size, },
+        {  3.0f * s_Size,  1.0f * s_Size, 0.0f * s_Size, },
+        { -3.0f * s_Size,  1.0f * s_Size, 0.0f * s_Size, },
     };
 
     static float s_BulletColors[][4] =
     {
-        { 1.0f, 1.0f, 1.0f, 1.0f, },        // Color of vertex 0.
-        { 1.0f, 1.0f, 1.0f, 1.0f, },        // Color of vertex 1.
-        { 1.0f, 1.0f, 1.0f, 1.0f, },        // Color of vertex 2.
-        { 1.0f, 1.0f, 1.0f, 1.0f, },        // Color of vertex 3
+        { 1.0f * float(m_Health) / float(m_MaxHealth), 1.0f * float(m_Health) / float(m_MaxHealth), 0.0f, 1.0f, },        // Color of vertex 0.
+        { 1.0f * float(m_Health) / float(m_MaxHealth), 1.0f * float(m_Health) / float(m_MaxHealth), 0.0f, 1.0f, },        // Color of vertex 1.
+        { 1.0f * float(m_Health) / float(m_MaxHealth), 1.0f * float(m_Health) / float(m_MaxHealth), 0.0f, 1.0f, },        // Color of vertex 2.
+        { 1.0f * float(m_Health) / float(m_MaxHealth), 1.0f * float(m_Health) / float(m_MaxHealth), 0.0f, 1.0f, },        // Color of vertex 3
     };
 
     // -----------------------------------------------------------------------------
@@ -71,21 +71,25 @@ void CBullet::CreateBullet(gfx::BHandle* _ppMesh)
     CreateMesh(MeshInfo, _ppMesh);
 }
 
-void CBullet::OnUpdate()
+void CShield::OnUpdate()
 {
     switch (m_State)
     {
-    case CBullet::Up:
+    case CShield::Idle:
     {
         m_Translation[1] += m_Speed;
     }
     break;
-    case CBullet::Down:
+    case CShield::Impact:
     {
-        m_Translation[1] -= m_Speed;
+        m_Health -= 1;
+        if (m_Health <= 0) m_State = CShield::Dead;
+        else m_State = CShield::Idle;
     }
     break;
     }
 }
 
-CBullet::~CBullet(){}
+CShield::~CShield()
+{
+}

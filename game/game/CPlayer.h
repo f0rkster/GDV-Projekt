@@ -13,6 +13,7 @@ private:
         Left,
         Right,
         Shoot,
+        Cooldown,
         GettingHurt,
     };
 

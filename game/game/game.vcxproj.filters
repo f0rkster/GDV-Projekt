@@ -90,6 +90,9 @@
     <ClCompile Include="CBullet.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="CShield.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CPlayer.h">
@@ -102,6 +105,9 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="CEntity.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="CShield.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

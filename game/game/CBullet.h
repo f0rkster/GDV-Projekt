@@ -9,6 +9,7 @@ class CBullet : public CEntity
 private:
     enum EState
     {
+        Idle,
         Up,
         Down,
     };

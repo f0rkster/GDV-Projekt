@@ -1,4 +1,7 @@
 #include "CPlayer.h"
+#include "CBullet.h"
+#include "yoshix_fix_function.h"
+#include <iostream>
 
 CPlayer::CPlayer()
 {
@@ -102,6 +105,25 @@ void CPlayer::OnUpdate(SKeyState _keyState)
 
     case CPlayer::Shoot:
     {
+        std::cout << "shoot\n";
+
+        //CBullet bullet;
+        //bullet.m_Translation[0] = m_Translation[0];
+        //bullet.m_State = CBullet::Up;
+        //gfx::BHandle pBulletMesh = nullptr;
+        //bullet.CreateBullet(&pBulletMesh);
+        //gfx::ReleaseMesh(pBulletMesh);
+        //float WorldMatrix[16];
+        //gfx::GetTranslationMatrix(bullet.m_Translation[0], bullet.m_Translation[1], 0.0f, WorldMatrix);
+        //gfx::SetWorldMatrix(WorldMatrix);
+        //gfx::DrawMesh(pBulletMesh);
+
+        m_State = CPlayer::Cooldown;
+    }
+    break;
+    case CPlayer::Cooldown:
+    {
+        std::cout << "cooldown\n";
         if (!_keyState.m_IsSpaceDown) m_State = CPlayer::Idle;
     }
     break;
