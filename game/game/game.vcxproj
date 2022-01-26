@@ -167,6 +167,11 @@
     <ClCompile Include="triangle_textured.cpp" />
     <ClCompile Include="triangle_textured_lighted.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="SBullet.h" />
+    <ClInclude Include="SKeyState.h" />
+    <ClInclude Include="SPlayer.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
