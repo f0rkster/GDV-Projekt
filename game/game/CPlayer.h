@@ -1,4 +1,5 @@
 #pragma once
+#include "yoshix_fix_function.h"
 
 #include "CEntity.h"
 #include "SKeyState.h"
@@ -21,6 +22,7 @@ private:
 
 public:
     CPlayer();
+    void CreatePlayer(gfx::BHandle* _ppMesh);
     void OnUpdate(SKeyState _keyState);
     ~CPlayer();
 };
