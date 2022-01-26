@@ -145,8 +145,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="cube_colored_lighted_per_triangle.cpp" />
+    <ClCompile Include="cube_colored_lighted_per_vertex.cpp" />
+    <ClCompile Include="cube_simple.cpp" />
+    <ClCompile Include="cube_textured_lighted.cpp" />
     <ClCompile Include="example.cpp" />
     <ClCompile Include="jump_and_run.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="quad_colored.cpp" />
+    <ClCompile Include="quad_colored_lighted.cpp" />
+    <ClCompile Include="quad_simple.cpp" />
+    <ClCompile Include="quad_simple_lighted.cpp" />
+    <ClCompile Include="quad_textured.cpp" />
+    <ClCompile Include="quad_textured_alpha.cpp" />
+    <ClCompile Include="quad_textured_lighted.cpp" />
+    <ClCompile Include="sphere_textured.cpp" />
+    <ClCompile Include="triangle_colored.cpp" />
+    <ClCompile Include="triangle_colored_lighted.cpp" />
+    <ClCompile Include="triangle_simple.cpp" />
+    <ClCompile Include="triangle_simple_lighted.cpp" />
+    <ClCompile Include="triangle_textured.cpp" />
+    <ClCompile Include="triangle_textured_lighted.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

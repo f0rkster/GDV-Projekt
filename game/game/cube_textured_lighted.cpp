@@ -1,7 +1,6 @@
 
 #include "yoshix_fix_function.h"
 
-#include <iostream>
 #include <math.h>
 
 using namespace gfx;
@@ -19,15 +18,12 @@ namespace
 
             float   m_FieldOfViewY;     // Vertical view angle of the camera.
 
+            float   m_AngleX;           // Angle of the cube around the x-axis.
+            float   m_AngleY;           // Angle of the cube around the y-axis.
+            float   m_AngleZ;           // Angle of the cube around the z-axis.
+
             BHandle m_pCubeMesh;        // A pointer to a YoshiX mesh, which represents a single cube.
             BHandle m_pCubeTexture;     // A pointer to a YoshiX texture, which is part of the material covering the cube.
-            BHandle m_pSphereMesh;      // A pointer to a YoshiX mesh, which represents a single sphere.
-            BHandle m_pSphereTexture;   // A pointer to a YoshiX texture, which is part of the material covering the sphere.
-
-        private:
-
-            void CreateCube(BHandle* _ppMesh, BHandle _pTexture, float _EdgeLength);
-            void CreateSphere(BHandle* _ppMesh, BHandle _pTexture, float _Radius);
 
         private:
 
@@ -38,7 +34,6 @@ namespace
             virtual bool InternOnCreateMeshes();
             virtual bool InternOnReleaseMeshes();
             virtual bool InternOnResize(int _Width, int _Height);
-            virtual bool InternOnKeyEvent(unsigned int _Key, bool _IsKeyDown, bool _IsAltDown);
             virtual bool InternOnUpdate();
             virtual bool InternOnFrame();
     };
@@ -47,11 +42,12 @@ namespace
 namespace
 {
     CApplication::CApplication()
-        : m_FieldOfViewY  (60.0f)     // Set the vertical view angle of the camera to 60 degrees.
-        , m_pCubeMesh     (nullptr)
-        , m_pCubeTexture  (nullptr)
-        , m_pSphereMesh   (nullptr)
-        , m_pSphereTexture(nullptr)
+        : m_FieldOfViewY(60.0f)     // Set the vertical view angle of the camera to 60 degrees.
+        , m_AngleX      (0.0f)
+        , m_AngleY      (0.0f)
+        , m_AngleZ      (0.0f)
+        , m_pCubeMesh   (nullptr)
+        , m_pCubeTexture(nullptr)
     {
     }
 
@@ -77,6 +73,23 @@ namespace
 
         SetClearColor(ClearColor);
 
+        // -----------------------------------------------------------------------------
+        // Define the position of the light source in 3D space. The fixed function 
+        // pipeline of YoshiX only supports one light source.
+        // -----------------------------------------------------------------------------
+        float LightPosition[3] = { 0.0f, 0.0f, -4.0f, };
+
+        SetLightPosition(LightPosition);
+
+        // -----------------------------------------------------------------------------
+        // Define the ambient, diffuse, and specular color of the light source. 
+        // -----------------------------------------------------------------------------
+        float LightAmbientColor [4] = { 0.1f, 0.1f, 0.1f, 1.0f, };
+        float LightDiffuseColor [4] = { 0.6f, 0.6f, 0.6f, 1.0f, };
+        float LightSpecularColor[4] = { 0.9f, 0.9f, 0.9f, 1.0f, };
+
+        SetLightColor(LightAmbientColor, LightDiffuseColor, LightSpecularColor, 127);
+
         return true;
     }
 
@@ -95,8 +108,7 @@ namespace
         // Load an image from the given path and create a YoshiX texture representing
         // the image.
         // -----------------------------------------------------------------------------
-        CreateTexture("..\\data\\images\\cube.dds"   , &m_pCubeTexture);
-        CreateTexture("..\\data\\images\\sphere.dds" , &m_pSphereTexture);
+        CreateTexture("..\\data\\images\\sky.dds", &m_pCubeTexture);
 
         return true;
     }
@@ -109,129 +121,20 @@ namespace
         // Important to release the texture again when the application is shut down.
         // -----------------------------------------------------------------------------
         ReleaseTexture(m_pCubeTexture);
-        ReleaseTexture(m_pSphereTexture);
 
         return true;
     }
 
     // -----------------------------------------------------------------------------
 
-    void CApplication::CreateSphere(BHandle* _ppMesh, BHandle _pTexture, float _Radius)
-    {
-        static const float s_Pi                         = 3.1415926535897932384626433832795f;
-        static const int   s_Delta                      = 10;
-        static const int   s_NumberOfVerticalVertices   = 180 / s_Delta + 1;
-        static const int   s_NumberOfHorizontalVertices = 360 / s_Delta + 1;
-        static const int   s_NumberOfVertices           = s_NumberOfVerticalVertices * s_NumberOfHorizontalVertices;
-        static const int   s_NumberOfIndices            = s_NumberOfVertices * 2 * 3;
-
-        int   IndexOfVertex;
-        int   IndexOfIndex;
-
-        float RadiusOfSphere;
-        float CenterOfSphere[3];
-        float RadiusOfHorizontalCircle;
-        float CenterOfHorizontalCircle[3];
-        float FirstVertexOfHorizontalCircle[3];
-        float Distance[3];
-
-        int   Indices  [s_NumberOfIndices];
-        float Vertices [s_NumberOfVertices * 3];
-        float TexCoords[s_NumberOfVertices * 2];
-
-        RadiusOfSphere = _Radius;
-
-        CenterOfSphere[0] = 0.0f;
-        CenterOfSphere[1] = 0.0f;
-        CenterOfSphere[2] = 0.0f;
-
-        IndexOfVertex = 0;
-
-        for (float Alpha = 90.0f; Alpha <= 270; Alpha += s_Delta)
-        {
-            FirstVertexOfHorizontalCircle[0] = CenterOfSphere[0] + RadiusOfSphere * cos(s_Pi * Alpha / 180.0f);
-            FirstVertexOfHorizontalCircle[1] = CenterOfSphere[1] + RadiusOfSphere * sin(s_Pi * Alpha / 180.0f);
-            FirstVertexOfHorizontalCircle[2] = CenterOfSphere[2];
-
-            CenterOfHorizontalCircle[0] = CenterOfSphere               [0];
-            CenterOfHorizontalCircle[1] = FirstVertexOfHorizontalCircle[1];
-            CenterOfHorizontalCircle[2] = CenterOfSphere               [2];
-
-            Distance[0] = FirstVertexOfHorizontalCircle[0] - CenterOfHorizontalCircle[0];
-            Distance[1] = FirstVertexOfHorizontalCircle[1] - CenterOfHorizontalCircle[1];
-            Distance[2] = FirstVertexOfHorizontalCircle[2] - CenterOfHorizontalCircle[2];
-
-            RadiusOfHorizontalCircle = sqrtf(Distance[0] * Distance[0] + Distance[1] * Distance[1] + Distance[2] * Distance[2]);
-
-            for (float Gamma = 0.0f; Gamma <= 360; Gamma += s_Delta)
-            {
-                Vertices[IndexOfVertex * 3 + 0] = CenterOfHorizontalCircle[0] + RadiusOfHorizontalCircle * cos(s_Pi * Gamma / 180.0f);
-                Vertices[IndexOfVertex * 3 + 1] = CenterOfHorizontalCircle[1];
-                Vertices[IndexOfVertex * 3 + 2] = CenterOfHorizontalCircle[2] + RadiusOfHorizontalCircle * sin(s_Pi * Gamma / 180.0f);
-
-                TexCoords[IndexOfVertex * 2 + 0] =  Gamma / 360.0f;
-                TexCoords[IndexOfVertex * 2 + 1] = (Alpha -  90.0f) / 180.0f;
-
-                ++ IndexOfVertex;
-            }
-        }
-
-        IndexOfIndex = 0;
-
-        for (int IndexOfCircle = 0; IndexOfCircle < s_NumberOfVerticalVertices; ++ IndexOfCircle)
-        {
-            int FirstIndexOfCircle = IndexOfCircle * s_NumberOfHorizontalVertices;
-
-            for (int IndexOfTriangle = 0; IndexOfTriangle < s_NumberOfHorizontalVertices; ++ IndexOfTriangle)
-            {
-                int UpperLeft  = FirstIndexOfCircle + 0                            + IndexOfTriangle;
-                int UpperRight = FirstIndexOfCircle + 0                            + IndexOfTriangle + 1;
-                int LowerLeft  = FirstIndexOfCircle + s_NumberOfHorizontalVertices + IndexOfTriangle;
-                int LowerRight = FirstIndexOfCircle + s_NumberOfHorizontalVertices + IndexOfTriangle + 1;
-
-                Indices[IndexOfIndex + 0] = LowerLeft;
-                Indices[IndexOfIndex + 1] = LowerRight;
-                Indices[IndexOfIndex + 2] = UpperRight;
-
-                Indices[IndexOfIndex + 3] = LowerLeft;
-                Indices[IndexOfIndex + 4] = UpperRight;
-                Indices[IndexOfIndex + 5] = UpperLeft;
-
-                IndexOfIndex += 6;
-            }
-        }
-
-        // -----------------------------------------------------------------------------
-        // Define the mesh and its material. The material defines the look of the
-        // surface covering the mesh. If the material should contain normals, colors, or
-        // texture coordinates then their number has to match the number of vertices.
-        // If you do not support normals in a mesh, YoshiX will not apply lighting to
-        // this mesh.
-        // -----------------------------------------------------------------------------
-        SMeshInfo MeshInfo;
-
-        MeshInfo.m_pVertices        = Vertices;
-        MeshInfo.m_pNormals         = nullptr;
-        MeshInfo.m_pColors          = nullptr;                      // No colors.
-        MeshInfo.m_pTexCoords       = TexCoords;
-        MeshInfo.m_NumberOfVertices = s_NumberOfVertices;
-        MeshInfo.m_NumberOfIndices  = s_NumberOfIndices;
-        MeshInfo.m_pIndices         = Indices;
-        MeshInfo.m_pTexture         = _pTexture;
-
-        CreateMesh(MeshInfo, _ppMesh);
-    }
-
-    // -----------------------------------------------------------------------------
-
-    void CApplication::CreateCube(BHandle* _ppMesh, BHandle _pTexture, float _EdgeLength)
+    bool CApplication::InternOnCreateMeshes()
     {
         // -----------------------------------------------------------------------------
         // Define the vertices of the mesh and their attributes.
         // -----------------------------------------------------------------------------
-        float s_HalfEdgeLength = 0.5f * _EdgeLength;
-
-        float s_CubeVertices[][3] =
+        static const float s_HalfEdgeLength = 2.0f;
+        
+        static float s_CubeVertices[][3] =
         {
             { -s_HalfEdgeLength, -s_HalfEdgeLength, -s_HalfEdgeLength, },
             {  s_HalfEdgeLength, -s_HalfEdgeLength, -s_HalfEdgeLength, },
@@ -264,7 +167,40 @@ namespace
             { -s_HalfEdgeLength, -s_HalfEdgeLength, -s_HalfEdgeLength, },
         };
 
-        float s_U[] =
+        static float s_CubeNormals[][3] =
+        {
+            {  0.0f,  0.0f, -1.0f, },
+            {  0.0f,  0.0f, -1.0f, },
+            {  0.0f,  0.0f, -1.0f, },
+            {  0.0f,  0.0f, -1.0f, },
+
+            {  1.0f,  0.0f,  0.0f, },
+            {  1.0f,  0.0f,  0.0f, },
+            {  1.0f,  0.0f,  0.0f, },
+            {  1.0f,  0.0f,  0.0f, },
+
+            {  0.0f,  0.0f,  1.0f, },
+            {  0.0f,  0.0f,  1.0f, },
+            {  0.0f,  0.0f,  1.0f, },
+            {  0.0f,  0.0f,  1.0f, },
+
+            { -1.0f,  0.0f,  0.0f, },
+            { -1.0f,  0.0f,  0.0f, },
+            { -1.0f,  0.0f,  0.0f, },
+            { -1.0f,  0.0f,  0.0f, },
+
+            {  0.0f,  1.0f,  0.0f, },
+            {  0.0f,  1.0f,  0.0f, },
+            {  0.0f,  1.0f,  0.0f, },
+            {  0.0f,  1.0f,  0.0f, },
+
+            {  0.0f, -1.0f,  0.0f, },
+            {  0.0f, -1.0f,  0.0f, },
+            {  0.0f, -1.0f,  0.0f, },
+            {  0.0f, -1.0f,  0.0f, },
+        };
+
+        static float s_U[] =
         {
             0.0f / 4.0f,
             1.0f / 4.0f,
@@ -273,7 +209,7 @@ namespace
             4.0f / 4.0f,
         };
 
-        float s_V[] =
+        static float s_V[] =
         {
             3.0f / 3.0f,
             2.0f / 3.0f,
@@ -281,7 +217,7 @@ namespace
             0.0f / 3.0f,
         };
 
-        float s_CubeTexCoords[][2] =
+        static float s_CubeTexCoords[][2] =
         {
             { s_U[1], s_V[1], },
             { s_U[2], s_V[1], },
@@ -323,7 +259,7 @@ namespace
         // define the indices of the addressed vertices of the triangle in counter-
         // clockwise order.
         // -----------------------------------------------------------------------------
-        int s_CubeIndices[][3] =
+        static int s_CubeIndices[][3] =
         {
             {  0,  1,  2, },
             {  0,  2,  3, },
@@ -355,23 +291,15 @@ namespace
         SMeshInfo MeshInfo;
 
         MeshInfo.m_pVertices        = &s_CubeVertices[0][0];
-        MeshInfo.m_pNormals         = nullptr;                          // No normals
-        MeshInfo.m_pColors          = nullptr;                          // No colors
+        MeshInfo.m_pNormals         = &s_CubeNormals[0][0];
+        MeshInfo.m_pColors          = nullptr;                          // No colors.
         MeshInfo.m_pTexCoords       = &s_CubeTexCoords[0][0];
         MeshInfo.m_NumberOfVertices = 24;
         MeshInfo.m_NumberOfIndices  = 36;
         MeshInfo.m_pIndices         = &s_CubeIndices[0][0];
-        MeshInfo.m_pTexture         = _pTexture;
+        MeshInfo.m_pTexture         = m_pCubeTexture;
 
-        CreateMesh(MeshInfo, _ppMesh);
-    }
-
-    // -----------------------------------------------------------------------------
-
-    bool CApplication::InternOnCreateMeshes()
-    {
-        CreateCube  (&m_pCubeMesh  , m_pCubeTexture  , 1.0f);
-        CreateSphere(&m_pSphereMesh, m_pSphereTexture, 1.0f);
+        CreateMesh(MeshInfo, &m_pCubeMesh);
 
         return true;
     }
@@ -384,7 +312,6 @@ namespace
         // Important to release the mesh again when the application is shut down.
         // -----------------------------------------------------------------------------
         ReleaseMesh(m_pCubeMesh);
-        ReleaseMesh(m_pSphereMesh);
 
         return true;
     }
@@ -436,43 +363,32 @@ namespace
 
     bool CApplication::InternOnFrame()
     {
-        float WorldMatrix[16];
+        float TranslationMatrix[16];
+        float RotationXMatrix  [16];
+        float RotationYMatrix  [16];
+        float RotationZMatrix  [16];
+        float WorldMatrix      [16];
 
         // -----------------------------------------------------------------------------
         // Set the position of the mesh in the world and draw it.
         // -----------------------------------------------------------------------------
-        GetTranslationMatrix(-4.0f, 0.0f, 0.0f, WorldMatrix);
+        GetTranslationMatrix(0.0f, 0.0f, 0.0f, TranslationMatrix);
+
+        GetRotationXMatrix(m_AngleX, RotationXMatrix);
+        GetRotationYMatrix(m_AngleY, RotationYMatrix);
+        GetRotationZMatrix(m_AngleZ, RotationZMatrix);
+
+        m_AngleX = ::fmodf(m_AngleX + 0.002f, 360.0f);
+        m_AngleY = ::fmodf(m_AngleY + 0.002f, 360.0f);
+        m_AngleZ = ::fmodf(m_AngleZ + 0.002f, 360.0f);
+
+        MulMatrix(RotationZMatrix,   RotationYMatrix, WorldMatrix);
+        MulMatrix(    WorldMatrix,   RotationXMatrix, WorldMatrix);
+        MulMatrix(    WorldMatrix, TranslationMatrix, WorldMatrix);
         
         SetWorldMatrix(WorldMatrix);
 
-        // -----------------------------------------------------------------------------
-        // Draw cube 1 with current set world matrix.
-        // -----------------------------------------------------------------------------
         DrawMesh(m_pCubeMesh);
-
-        GetTranslationMatrix(4.0f, 0.0f, 0.0f, WorldMatrix);
-
-        SetWorldMatrix(WorldMatrix);
-
-        // -----------------------------------------------------------------------------
-        // Draw cube 2 with current set world matrix.
-        // -----------------------------------------------------------------------------
-        DrawMesh(m_pSphereMesh);
-
-        return true;
-    }
-
-    // -----------------------------------------------------------------------------
-
-    bool CApplication::InternOnKeyEvent(unsigned int _Key, bool _IsKeyDown, bool _IsAltDown)
-    {
-        // -----------------------------------------------------------------------------
-        // Pressing the 'Space' key implies the condition to become true.
-        // -----------------------------------------------------------------------------
-        if (_Key == ' ')
-        {
-            std::cout << "Jump" << std::endl;
-        }
 
         return true;
     }

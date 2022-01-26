@@ -13,13 +13,73 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Quelldateien\examples">
+      <UniqueIdentifier>{bb171352-032f-47e6-a58d-e6be30dd7e93}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="jump_and_run.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="jump_and_run.cpp">
+      <Filter>Quelldateien\examples</Filter>
+    </ClCompile>
     <ClCompile Include="example.cpp">
-      <Filter>Quelldateien</Filter>
+      <Filter>Quelldateien\examples</Filter>
+    </ClCompile>
+    <ClCompile Include="cube_colored_lighted_per_triangle.cpp">
+      <Filter>Quelldateien\examples</Filter>
+    </ClCompile>
+    <ClCompile Include="cube_colored_lighted_per_vertex.cpp">
+      <Filter>Quelldateien\examples</Filter>
+    </ClCompile>
+    <ClCompile Include="cube_simple.cpp">
+      <Filter>Quelldateien\examples</Filter>
+    </ClCompile>
+    <ClCompile Include="cube_textured_lighted.cpp">
+      <Filter>Quelldateien\examples</Filter>
+    </ClCompile>
+    <ClCompile Include="quad_colored.cpp">
+      <Filter>Quelldateien\examples</Filter>
+    </ClCompile>
+    <ClCompile Include="quad_colored_lighted.cpp">
+      <Filter>Quelldateien\examples</Filter>
+    </ClCompile>
+    <ClCompile Include="quad_simple.cpp">
+      <Filter>Quelldateien\examples</Filter>
+    </ClCompile>
+    <ClCompile Include="quad_simple_lighted.cpp">
+      <Filter>Quelldateien\examples</Filter>
+    </ClCompile>
+    <ClCompile Include="quad_textured.cpp">
+      <Filter>Quelldateien\examples</Filter>
+    </ClCompile>
+    <ClCompile Include="quad_textured_alpha.cpp">
+      <Filter>Quelldateien\examples</Filter>
+    </ClCompile>
+    <ClCompile Include="quad_textured_lighted.cpp">
+      <Filter>Quelldateien\examples</Filter>
+    </ClCompile>
+    <ClCompile Include="sphere_textured.cpp">
+      <Filter>Quelldateien\examples</Filter>
+    </ClCompile>
+    <ClCompile Include="triangle_colored.cpp">
+      <Filter>Quelldateien\examples</Filter>
+    </ClCompile>
+    <ClCompile Include="triangle_colored_lighted.cpp">
+      <Filter>Quelldateien\examples</Filter>
+    </ClCompile>
+    <ClCompile Include="triangle_simple.cpp">
+      <Filter>Quelldateien\examples</Filter>
+    </ClCompile>
+    <ClCompile Include="triangle_simple_lighted.cpp">
+      <Filter>Quelldateien\examples</Filter>
+    </ClCompile>
+    <ClCompile Include="triangle_textured.cpp">
+      <Filter>Quelldateien\examples</Filter>
+    </ClCompile>
+    <ClCompile Include="triangle_textured_lighted.cpp">
+      <Filter>Quelldateien\examples</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

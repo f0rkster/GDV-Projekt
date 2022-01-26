@@ -575,9 +575,9 @@ namespace
     }
 } // namespace
 
-void main()
-{
-    CApplication Application;
-
-    RunApplication(800, 600, "YoshiX Example", &Application);
-}
+//void main()
+//{
+//    CApplication Application;
+//
+//    RunApplication(800, 600, "YoshiX Example", &Application);
+//}
