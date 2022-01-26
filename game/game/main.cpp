@@ -5,9 +5,10 @@
 #include <iostream>
 #include <math.h>
 
-#include "SBullet.h"
+#include "CBullet.h"
+#include "CPlayer.h"
+
 #include "SKeyState.h"
-#include "SPlayer.h"
 
 using namespace gfx;
 
@@ -22,7 +23,6 @@ namespace
 
     private:
 
-
     private:
 
         float       m_FieldOfViewY;     // Vertical view angle of the camera
@@ -30,14 +30,14 @@ namespace
         BHandle     m_pBulletMesh;
         BHandle     m_pPlayerMesh;
 
-        SBullet     m_Bullet;
-        SPlayer     m_Player;
+        CBullet     m_Bullet;
+        CPlayer     m_Player;
 
         SKeyState   m_KeyState;
 
     private:
-        void CreatePlayer(BHandle* _ppMesh);
         void CreateBullet(BHandle* _ppMesh);
+        void CreatePlayer(BHandle* _ppMesh);
 
 
     private:
@@ -76,19 +76,6 @@ namespace
 
     bool CApplication::InternOnStartup()
     {
-        m_Bullet.m_Speed            = 0.1f;
-        m_Bullet.m_State            = SBullet::Up;
-        m_Bullet.m_Translation[0]   = 0.0f;
-        m_Bullet.m_Translation[1]   = 0.0f;
-        m_Bullet.m_Translation[2]   = 0.0f;
-
-        m_Player.m_Speed            = 0.1f;
-        m_Player.m_State            = SPlayer::Idle;
-        m_Player.m_Translation[0]   = 0.0f;
-        m_Player.m_Translation[1]   = -9.0f;
-        m_Player.m_Translation[2]   = 0.0f;
-        m_Player.m_Health           = 3;
-
         m_KeyState.m_IsLArrowDown   = false;
         m_KeyState.m_IsRArrowDown   = false;
         m_KeyState.m_IsSpaceDown    = false;
@@ -326,51 +313,8 @@ namespace
         //
         //SetViewMatrix(ViewMatrix);
         
-        switch (m_Bullet.m_State)
-        {
-            case SBullet::Up:
-            {
-                m_Bullet.m_Translation[1] += m_Bullet.m_Speed;
-            }
-            case SBullet::Down:
-            {
-                m_Bullet.m_Translation[1] -= m_Bullet.m_Speed;
-            }
-            break;
-        }
+        m_Player.OnUpdate(m_KeyState);
 
-        switch (m_Player.m_State)
-        {
-            case SPlayer::Idle:
-            {
-                if (m_KeyState.m_IsLArrowDown) m_Player.m_State = SPlayer::Left;
-                if (m_KeyState.m_IsRArrowDown) m_Player.m_State = SPlayer::Right;
-                if (m_KeyState.m_IsSpaceDown)  m_Player.m_State = SPlayer::Shoot;
-            }
-            break;
-
-            case SPlayer::Left:
-            {
-                m_Player.m_Translation[0] -= m_Player.m_Speed;
-
-                if (!m_KeyState.m_IsLArrowDown) m_Player.m_State = SPlayer::Idle;
-            }
-            break;
-
-            case SPlayer::Right:
-            {
-                m_Player.m_Translation[0] += m_Player.m_Speed;
-
-                if (!m_KeyState.m_IsRArrowDown) m_Player.m_State = SPlayer::Idle;
-            }
-            break;
-
-            case SPlayer::Shoot:
-            {
-                if (!m_KeyState.m_IsSpaceDown) m_Player.m_State = SPlayer::Idle;
-            }
-            break;
-        }
 
         return true;
     }

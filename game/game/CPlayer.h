@@ -1,7 +1,11 @@
 #pragma once
 
-struct SPlayer
+#include "CEntity.h"
+#include "SKeyState.h"
+
+class CPlayer : public CEntity
 {
+private:
     enum EState
     {
         Idle,
@@ -11,10 +15,12 @@ struct SPlayer
         GettingHurt,
     };
 
-    float   m_Speed;
-    float   m_Translation[3];
-
     EState  m_State;
 
     int     m_Health;
+
+public:
+    CPlayer();
+    void OnUpdate(SKeyState _keyState);
+    ~CPlayer();
 };

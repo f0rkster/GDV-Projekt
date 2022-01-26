@@ -145,6 +145,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CBullet.cpp" />
+    <ClCompile Include="CEntity.cpp" />
+    <ClCompile Include="CPlayer.cpp" />
     <ClCompile Include="cube_colored_lighted_per_triangle.cpp" />
     <ClCompile Include="cube_colored_lighted_per_vertex.cpp" />
     <ClCompile Include="cube_simple.cpp" />
@@ -168,9 +171,10 @@
     <ClCompile Include="triangle_textured_lighted.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SBullet.h" />
+    <ClInclude Include="CBullet.h" />
+    <ClInclude Include="CEntity.h" />
     <ClInclude Include="SKeyState.h" />
-    <ClInclude Include="SPlayer.h" />
+    <ClInclude Include="CPlayer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

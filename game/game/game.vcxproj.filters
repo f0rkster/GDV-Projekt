@@ -81,15 +81,27 @@
     <ClCompile Include="triangle_textured_lighted.cpp">
       <Filter>Quelldateien\examples</Filter>
     </ClCompile>
+    <ClCompile Include="CEntity.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayer.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="CBullet.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SPlayer.h">
+    <ClInclude Include="CPlayer.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="SKeyState.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="SBullet.h">
+    <ClInclude Include="CBullet.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="CEntity.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
