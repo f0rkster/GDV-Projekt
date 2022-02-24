@@ -23,9 +23,6 @@ namespace
         virtual ~CApplication();
 
     private:
-
-    private:
-
         float       m_FieldOfViewY;     // Vertical view angle of the camera
 
         BHandle     m_pBulletMesh;
@@ -37,7 +34,6 @@ namespace
         CShield     m_Shields[3];
 
         SKeyState   m_KeyState;
-
 
     private:
         virtual bool InternOnStartup();
