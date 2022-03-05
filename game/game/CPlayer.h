@@ -1,29 +1,12 @@
 #pragma once
-#include "yoshix_fix_function.h"
+#include "CTriangle.h"
 
-#include "CEntity.h"
-#include "SKeyState.h"
-
-class CPlayer : public CEntity
-{
+class CPlayer : public CTriangle{
 private:
-    enum EState
-    {
-        Idle,
-        Left,
-        Right,
-        Shoot,
-        Cooldown,
-        GettingHurt,
-    };
-
-    EState  m_State;
-
-    int     m_Health;
-
+    float m_PointA[3] = { -0.5f, -1.0f, 0.0f };
+    float m_PointB[3] = {  0.5f, -1.0f, 0.0f };
+    float m_PointC[3] = {  0.0f,  0.0f, 0.0f };
 public:
     CPlayer();
-    void CreatePlayer(gfx::BHandle* _ppMesh);
-    void OnUpdate(SKeyState _keyState);
     ~CPlayer();
 };

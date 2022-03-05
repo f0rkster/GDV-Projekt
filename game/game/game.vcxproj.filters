@@ -81,33 +81,39 @@
     <ClCompile Include="triangle_textured_lighted.cpp">
       <Filter>Quelldateien\examples</Filter>
     </ClCompile>
-    <ClCompile Include="CEntity.cpp">
+    <ClCompile Include="CGame.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="CApp.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="CApp.h">
+      <Filter>Headerdateien</Filter>
+    </ClCompile>
+    <ClCompile Include="CShapes.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="CTriangle.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="CPlayer.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="CBullet.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="CShield.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CGame.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Data.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="CShapes.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="CTriangle.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
     <ClInclude Include="CPlayer.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="SKeyState.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="CBullet.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="CEntity.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="CShield.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
