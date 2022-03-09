@@ -2,9 +2,12 @@
 #include "yoshix_fix_function.h"
 
 CApp::CApp()
-    : m_FieldOfViewY(60.0f)    // Set the vertical view angle of the camera to 60 degrees.
+    : m_pGame(nullptr)
+    , m_FieldOfViewY(60.0f)    // Set the vertical view angle of the camera to 60 degrees.
     , m_pPlayerMesh(nullptr)
     , m_pShieldMesh(nullptr)
+    , m_pEnemyMesh(nullptr)
+    , m_pBulletMesh(nullptr)
 {
 }
 
@@ -13,6 +16,8 @@ CApp::~CApp() {
 }
 
 bool CApp::InternOnStartup() {
+
+    this->m_pGame = new CGame(&this->m_pPlayerMesh, &this->m_pShieldMesh, &this->m_pEnemyMesh, &this->m_pBulletMesh);
 
     // -----------------------------------------------------------------------------
     // Define the background color of the window. Colors are always 4D tuples,
@@ -34,15 +39,13 @@ bool CApp::InternOnShutdown() {
 }
 
 bool CApp::InternOnCreateMeshes() {
-    gfx::CreateMesh(m_Player->getMeshInfo(), &this->m_pPlayerMesh);
-    gfx::CreateMesh(m_Shield->getMeshInfo(), &this->m_pShieldMesh);
+    gfx::CreateMesh(m_pGame->m_pPlayer->getMeshInfo(), &this->m_pPlayerMesh);
     return true;
 }
 
 bool CApp::InternOnReleaseMeshes() {
 
     gfx::ReleaseMesh(this->m_pPlayerMesh);
-    gfx::ReleaseMesh(this->m_pShieldMesh);
     return true;
 }
 
@@ -99,7 +102,6 @@ bool CApp::InternOnFrame() {
     gfx::SetWorldMatrix(WorldMatrix);
 
     gfx::DrawMesh(this->m_pPlayerMesh);
-    gfx::DrawMesh(this->m_pShieldMesh);
 
     return true;
 }
