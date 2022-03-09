@@ -1,7 +1,8 @@
 #pragma once
 
 #include "yoshix_fix_function.h"
-#include "CGame.h"
+#include "CPlayer.h"
+#include "CShield.h"
 
 class CApp : public gfx::IApplication
 {
@@ -16,17 +17,11 @@ private:
 
     float        m_FieldOfViewY;     // Vertical view angle of the camera
 
-    //CPlayer m_Player;
-
-    float m_PointA[3] = { -0.5f, -1.0f, 0.0f };
-    float m_PointB[3] = { 0.5f, -1.0f, 0.0f };
-    float m_PointC[3] = { 0.0f,  0.0f, 0.0f };
-
-    CTriangle* m_Triangle = new CTriangle(m_PointA, m_PointB, m_PointC);
-    
     CPlayer* m_Player = new CPlayer();
+    CShield* m_Shield = new CShield();
 
     gfx::BHandle m_pPlayerMesh;
+    gfx::BHandle m_pShieldMesh;
 
 
 private:
