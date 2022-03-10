@@ -5,6 +5,7 @@
 
 #include "CPlayer.h"
 #include "CShield.h"
+#include "SKeyState.h"
 
 enum EGameState {START, RUN, PAUSED, GAMEOVER};
 class CGame {
@@ -13,7 +14,7 @@ public:
     ~CGame();
 
     void initGame();
-    void runGame();
+    void runGame(SKeyState* _KeyState);
     void finalizedGame();
 
 
@@ -26,5 +27,6 @@ public:
     gfx::BHandle* m_ppBulletMesh;
 
     CPlayer* m_pPlayer;
+    std::vector<CShield*> m_pShields;
 
 };

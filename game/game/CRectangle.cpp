@@ -16,7 +16,7 @@ CRectangle::CRectangle()
     fillIndices();
 }
 
-CRectangle::CRectangle(float _PointA[3], float _PointB[3], float _PointC[3], float _PointD[4])
+CRectangle::CRectangle(float _PointA[3], float _PointB[3], float _PointC[3], float _PointD[3])
 {
     memcpy(this->m_PointA, _PointA, sizeof(this->m_PointA));
     memcpy(this->m_PointB, _PointB, sizeof(this->m_PointB));
@@ -29,7 +29,7 @@ CRectangle::CRectangle(float _PointA[3], float _PointB[3], float _PointC[3], flo
     fillIndices();
 }
 
-CRectangle::CRectangle(float _PointA[3], float _PointB[3], float _PointC[3], float _PointD[4], float _Color[4])
+CRectangle::CRectangle(float _PointA[3], float _PointB[3], float _PointC[3], float _PointD[3], float _Color[4])
 {
     memcpy(this->m_PointA, _PointA, sizeof(this->m_PointA));
     memcpy(this->m_PointB, _PointB, sizeof(this->m_PointB));

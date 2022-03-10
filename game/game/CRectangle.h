@@ -1,7 +1,7 @@
 #pragma once
 #include "CShapes.h"
 
-class CRectangle : CShapes
+class CRectangle : public CShapes
 {
 public:
     static constexpr float s_StandardA[3] = { -1.0f, -1.0f, 0.0f };
@@ -26,7 +26,7 @@ public:
     CRectangle(float _PointA[3], float _PointB[3], float _PointC[3], float _PointD[3], float _Color[4]);
     ~CRectangle();
     gfx::SMeshInfo getMeshInfo() override;
-private:
+protected:
     void fillVertices();
     void fillColors();
     void fillIndices();

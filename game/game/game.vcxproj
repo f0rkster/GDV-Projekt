@@ -169,6 +169,7 @@
     <ClInclude Include="CShield.h" />
     <ClInclude Include="CTriangle.h" />
     <ClInclude Include="Data.h" />
+    <ClInclude Include="SKeyState.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -65,5 +65,8 @@
     <ClInclude Include="CShield.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="SKeyState.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -24,7 +24,7 @@ public:
     CTriangle(float _PointA[3], float _PointB[3], float _PointC[3], float _Color[4]);
     ~CTriangle();
     gfx::SMeshInfo getMeshInfo() override;
-private:
+protected:
     void fillVertices();
     void fillColors();
     void fillIndices();
