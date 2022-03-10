@@ -57,7 +57,17 @@ bool CApp::InternOnShutdown() {
 
 bool CApp::InternOnCreateMeshes() {
     gfx::CreateMesh(m_pGame->m_pPlayer->getMeshInfo(), &this->m_pPlayerMesh);
-    gfx::CreateMesh(m_pGame->m_pShields[0]->getMeshInfo(), &this->m_pShieldMesh);
+
+    for (CShield* s : m_pGame->m_pShields)
+    {
+        gfx::CreateMesh(s->getMeshInfo(), &this->m_pShieldMesh);
+    }
+
+    for (CBullet* b : m_pGame->m_pPlayer->m_Bullets)
+    {
+        gfx::CreateMesh(b->getMeshInfo(), &this->m_pBulletMesh);
+    }
+
     gfx::CreateMesh(m_Background->getMeshInfo(), &this->m_pBackgroundMesh);
     return true;
 }
@@ -66,6 +76,7 @@ bool CApp::InternOnReleaseMeshes() {
 
     gfx::ReleaseMesh(this->m_pPlayerMesh);
     gfx::ReleaseMesh(this->m_pShieldMesh);
+    gfx::ReleaseMesh(this->m_pBulletMesh);
     gfx::ReleaseMesh(this->m_pBackgroundMesh);
     return true;
 }
@@ -88,8 +99,8 @@ bool CApp::InternOnResize(int _Width, int _Height) {
 
 bool CApp::InternOnKeyEvent(unsigned int _Key, bool _IsKeyDown, bool _IsAltDown) {
     if (_Key == ' ') m_KeyState.m_isSPACEdown = _IsKeyDown;
-    if (_Key == 'A') m_KeyState.m_isAdown = _IsKeyDown;
-    if (_Key == 'D') m_KeyState.m_isDdown = _IsKeyDown;
+    if (_Key == 'A' || _Key == 37) m_KeyState.m_isAdown = _IsKeyDown; // 37 is the Left Arrow https://stackoverflow.com/questions/2876275/what-are-the-ascii-values-of-up-down-left-right
+    if (_Key == 'D' || _Key == 39) m_KeyState.m_isDdown = _IsKeyDown; // 39 is the Right Arrow https://stackoverflow.com/questions/2876275/what-are-the-ascii-values-of-up-down-left-right
     return true;
 }
 
@@ -119,8 +130,6 @@ bool CApp::InternOnUpdate() {
 bool CApp::InternOnFrame() {
     float WorldMatrix[16];
 
-
-
     // -----------------------------------------------------------------------------
     // Set the position of the mesh in the world and draw it.
     // -----------------------------------------------------------------------------
@@ -132,6 +141,12 @@ bool CApp::InternOnFrame() {
         gfx::GetTranslationMatrix(s->m_Translation[0], s->m_Translation[1], s->m_Translation[2], WorldMatrix);
         gfx::SetWorldMatrix(WorldMatrix);
         gfx::DrawMesh(this->m_pShieldMesh);
+    }
+
+    for (CBullet* b : m_pGame->m_pPlayer->m_Bullets) {
+        gfx::GetTranslationMatrix(b->m_Translation[0], b->m_Translation[1], b->m_Translation[2], WorldMatrix);
+        gfx::SetWorldMatrix(WorldMatrix);
+        gfx::DrawMesh(this->m_pBulletMesh);
     }
 
 

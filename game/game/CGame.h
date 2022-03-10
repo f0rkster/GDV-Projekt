@@ -3,6 +3,7 @@
 #include "yoshix_fix_function.h"
 #include <vector>
 
+#include "CBullet.h"
 #include "CPlayer.h"
 #include "CShield.h"
 #include "SKeyState.h"

@@ -42,6 +42,9 @@
     <ClCompile Include="CShield.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="CBullet.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CGame.h">
@@ -66,6 +69,9 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="SKeyState.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="CBullet.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

@@ -153,6 +153,7 @@
   <ItemGroup>
     <ClCompile Include="CApp.cpp" />
     <ClCompile Include="CApp.h" />
+    <ClCompile Include="CBullet.cpp" />
     <ClCompile Include="CGame.cpp" />
     <ClCompile Include="CPlayer.cpp" />
     <ClCompile Include="CRectangle.cpp" />
@@ -162,6 +163,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CBullet.h" />
     <ClInclude Include="CGame.h" />
     <ClInclude Include="CPlayer.h" />
     <ClInclude Include="CRectangle.h" />

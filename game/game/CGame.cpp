@@ -24,6 +24,7 @@ CGame::~CGame()
 void CGame::initGame()
 {
     this->m_pPlayer = new CPlayer();
+    m_pPlayer->m_Bullets.push_back(new CBullet(m_pPlayer->m_Translation[0], m_pPlayer->m_Translation[1]));
 
     float shieldYPos = -2.0f;
     this->m_pShields.push_back(new CShield(-WIDTH/3, shieldYPos));
