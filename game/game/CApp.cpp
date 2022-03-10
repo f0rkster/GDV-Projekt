@@ -68,6 +68,12 @@ bool CApp::InternOnCreateMeshes() {
         gfx::CreateMesh(b->getMeshInfo(), &this->m_pBulletMesh);
     }
 
+    for (CEnemy* e : m_pGame->m_pEnemies)
+    {
+        gfx::CreateMesh(e->getMeshInfo(), &this->m_pEnemyMesh);
+    }
+
+
     gfx::CreateMesh(m_Background->getMeshInfo(), &this->m_pBackgroundMesh);
     return true;
 }
@@ -77,6 +83,7 @@ bool CApp::InternOnReleaseMeshes() {
     gfx::ReleaseMesh(this->m_pPlayerMesh);
     gfx::ReleaseMesh(this->m_pShieldMesh);
     gfx::ReleaseMesh(this->m_pBulletMesh);
+    gfx::ReleaseMesh(this->m_pEnemyMesh);
     gfx::ReleaseMesh(this->m_pBackgroundMesh);
     return true;
 }
@@ -147,6 +154,12 @@ bool CApp::InternOnFrame() {
         gfx::GetTranslationMatrix(b->m_Translation[0], b->m_Translation[1], b->m_Translation[2], WorldMatrix);
         gfx::SetWorldMatrix(WorldMatrix);
         gfx::DrawMesh(this->m_pBulletMesh);
+    }
+
+    for (CEnemy* e : m_pGame->m_pEnemies) {
+        gfx::GetTranslationMatrix(e->m_Translation[0], e->m_Translation[1], e->m_Translation[2], WorldMatrix);
+        gfx::SetWorldMatrix(WorldMatrix);
+        gfx::DrawMesh(this->m_pEnemyMesh);
     }
 
 

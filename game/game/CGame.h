@@ -6,6 +6,7 @@
 #include "CBullet.h"
 #include "CPlayer.h"
 #include "CShield.h"
+#include "CEnemy.h"
 #include "SKeyState.h"
 
 enum EGameState {START, RUN, PAUSED, GAMEOVER};
@@ -29,5 +30,6 @@ public:
 
     CPlayer* m_pPlayer;
     std::vector<CShield*> m_pShields;
+    std::vector<CEnemy*> m_pEnemies;
 
 };

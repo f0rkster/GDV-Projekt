@@ -14,6 +14,6 @@ CBullet::~CBullet()
 
 void CBullet::OnUpdate()
 {
-    m_Translation[1] += m_Speed;
-    fillVertices();
+    this->m_Translation[1] += m_Speed;
+    this->fillVertices();
 }

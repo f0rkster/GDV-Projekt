@@ -19,6 +19,16 @@ CGame::~CGame()
     {
         delete s;
     }
+
+    for (CBullet* b : m_pPlayer->m_Bullets)
+    {
+        delete b;
+    }    
+    
+    for (CEnemy* e : m_pEnemies)
+    {
+        delete e;
+    }
 }
 
 void CGame::initGame()
@@ -30,6 +40,8 @@ void CGame::initGame()
     this->m_pShields.push_back(new CShield(-WIDTH/3, shieldYPos));
     this->m_pShields.push_back(new CShield(0       , shieldYPos));
     this->m_pShields.push_back(new CShield( WIDTH/3, shieldYPos));
+
+    this->m_pEnemies.push_back(new CEnemy(0, 0));
 }
 
 void CGame::runGame(SKeyState* _KeyState)
