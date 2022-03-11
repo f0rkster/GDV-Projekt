@@ -3,6 +3,8 @@
 
 #include "Data.h"
 
+#include <iostream>
+
 CApp::CApp()
     : m_pGame(nullptr)
     , m_FieldOfViewY(60.0f)    // Set the vertical view angle of the camera to 60 degrees.
@@ -10,6 +12,7 @@ CApp::CApp()
     , m_pShieldMesh(nullptr)
     , m_pEnemyMesh(nullptr)
     , m_pBulletMesh(nullptr)
+    , m_pBottomLineMesh(nullptr)
     , m_pBackgroundMesh(nullptr)
 {
 }
@@ -17,6 +20,7 @@ CApp::CApp()
 CApp::~CApp() {
     delete m_pGame;
     delete m_Background;
+    delete m_BottomLine;
 }
 
 bool CApp::InternOnStartup() {
@@ -26,8 +30,6 @@ bool CApp::InternOnStartup() {
     // -----------------------------------------------------------------------------
     // Background
     // -----------------------------------------------------------------------------
-    float BackgroundWidth = WIDTH;
-    float BackgroundHeight = HEIGHT;
     float BackgroundA[3] = { -WIDTH / 2, -HEIGHT / 2, 0 };
     float BackgroundB[3] = {  WIDTH / 2, -HEIGHT / 2, 0 };
     float BackgroundC[3] = {  WIDTH / 2,  HEIGHT / 2, 0 };
@@ -35,6 +37,17 @@ bool CApp::InternOnStartup() {
     float BackgroundGreyValue = 0.15;
     float BackgroundColor[4] = { BackgroundGreyValue, BackgroundGreyValue, BackgroundGreyValue, 1.0f };
     this->m_Background = new CRectangle(BackgroundA, BackgroundB, BackgroundC, BackgroundD, BackgroundColor);
+
+    float BottomLineHeight = 0.05f;
+    float BottomLineA[3] = { -WIDTH / 2, -BottomLineHeight / 2, 0 };
+    float BottomLineB[3] = {  WIDTH / 2, -BottomLineHeight / 2, 0 };
+    float BottomLineC[3] = {  WIDTH / 2,  BottomLineHeight / 2, 0 };
+    float BottomLineD[3] = { -WIDTH / 2,  BottomLineHeight / 2, 0 };
+    float BottomLineColor[4] = { 1.0f, 1.0f, 0.0f, 1.0f };
+    this->m_BottomLine = new CRectangle(BottomLineA, BottomLineB, BottomLineC, BottomLineD, BottomLineColor);
+    float YPos = -1.5f;
+    this->m_BottomLine->m_Translation[1] = YPos;
+
 
     // -----------------------------------------------------------------------------
     // Define the background color of the window. Colors are always 4D tuples,
@@ -74,6 +87,7 @@ bool CApp::InternOnCreateMeshes() {
     }
 
 
+    gfx::CreateMesh(m_BottomLine->getMeshInfo(), &this->m_pBottomLineMesh);
     gfx::CreateMesh(m_Background->getMeshInfo(), &this->m_pBackgroundMesh);
     return true;
 }
@@ -84,6 +98,7 @@ bool CApp::InternOnReleaseMeshes() {
     gfx::ReleaseMesh(this->m_pShieldMesh);
     gfx::ReleaseMesh(this->m_pBulletMesh);
     gfx::ReleaseMesh(this->m_pEnemyMesh);
+    gfx::ReleaseMesh(this->m_pBottomLineMesh);
     gfx::ReleaseMesh(this->m_pBackgroundMesh);
     return true;
 }
@@ -166,6 +181,10 @@ bool CApp::InternOnFrame() {
     // -----------------------------------------------------------------------------
     // Background
     // -----------------------------------------------------------------------------
+    gfx::GetTranslationMatrix(m_BottomLine->m_Translation[0], m_BottomLine->m_Translation[1], m_BottomLine->m_Translation[2], WorldMatrix);
+    gfx::SetWorldMatrix(WorldMatrix);
+    gfx::DrawMesh(this->m_pBottomLineMesh);
+
     gfx::GetTranslationMatrix(m_Background->m_Translation[0], m_Background->m_Translation[1], m_Background->m_Translation[2], WorldMatrix);
     gfx::SetWorldMatrix(WorldMatrix);
     gfx::DrawMesh(this->m_pBackgroundMesh);

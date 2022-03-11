@@ -17,6 +17,7 @@ private:
 private:
 
     CRectangle* m_Background;
+    CRectangle* m_BottomLine;
     CGame* m_pGame;
     SKeyState m_KeyState;
 
@@ -27,6 +28,7 @@ private:
     gfx::BHandle m_pEnemyMesh;
     gfx::BHandle m_pBulletMesh;
     gfx::BHandle m_pBackgroundMesh;
+    gfx::BHandle m_pBottomLineMesh;
 
 private:
     bool InternOnStartup();

@@ -19,6 +19,12 @@ public:
     void runGame(SKeyState* _KeyState);
     void finalizedGame();
 
+private:
+    int m_Ticks = 0;
+    int m_MaxTicks = 80;
+    int m_SpeedUpInterval = 0;
+    int m_MaxSpeedUpInterval = 10;
+
 
 public: 
     EGameState m_State;

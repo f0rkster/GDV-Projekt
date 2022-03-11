@@ -41,12 +41,32 @@ void CGame::initGame()
     this->m_pShields.push_back(new CShield(0       , shieldYPos));
     this->m_pShields.push_back(new CShield( WIDTH/3, shieldYPos));
 
-    this->m_pEnemies.push_back(new CEnemy(0, 0));
+    float padding = 0.5f;
+    this->m_pEnemies.push_back(new CEnemy(LEFT_BORDER + padding, TOP_BORDER - padding));
 }
 
 void CGame::runGame(SKeyState* _KeyState)
 {
     this->m_pPlayer->OnUpdate(_KeyState);
+    
+    m_Ticks++;
+    if (m_Ticks == m_MaxTicks)
+    {
+        for (CEnemy* e : m_pEnemies)
+        {
+            e->OnUpdate();
+        }
+        float padding = 0.5f;
+        this->m_pEnemies.push_back(new CEnemy(LEFT_BORDER + padding, TOP_BORDER - padding));
+
+        m_SpeedUpInterval++;
+        if (m_SpeedUpInterval >= m_MaxSpeedUpInterval)
+        {
+            if (m_MaxTicks > 10) m_MaxTicks -= 5;
+            m_SpeedUpInterval = 0;
+        }
+        m_Ticks = 0;
+    }
 }
 
 void CGame::finalizedGame()

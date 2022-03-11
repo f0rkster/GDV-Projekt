@@ -1,6 +1,7 @@
 #include "CPlayer.h"
 #include "Data.h"
 #include <math.h>
+#include <iostream>
 
 CPlayer::CPlayer()
     :CTriangle((float*)this->m_PointA, (float*)this->m_PointB, (float*)this->m_PointC, (float*)this->m_Color)
@@ -28,6 +29,14 @@ void CPlayer::OnUpdate(SKeyState* _KeyState)
     {
         b->OnUpdate();
     }
+
+    // !todo fix destructor
+    /*
+    if (this->m_Bullets[0]->m_Translation[1] > TOP_BORDER)
+    {
+        this->m_Bullets.erase(this->m_Bullets.begin());
+    }
+    */
 
     fillVertices();
 }
