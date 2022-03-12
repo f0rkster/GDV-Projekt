@@ -1,135 +1,68 @@
 #include "CPlayer.h"
-#include "CBullet.h"
-#include "yoshix_fix_function.h"
+#include "Data.h"
+#include <math.h>
 #include <iostream>
 
 CPlayer::CPlayer()
+    :CTriangle((float*)this->m_PointA, (float*)this->m_PointB, (float*)this->m_PointC, (float*)this->m_Color)
+    , m_ShootState(EPlayerShootState::READY)
 {
-	m_Speed = 0.1f;
-
-	m_Translation[0] = 0.0f;
-	m_Translation[1] = -9.0f;
-	m_Translation[2] = 0.0f;
-	
-	m_Health = 3;
-
-	m_State = CPlayer::Idle;
-}
-
-void CPlayer::CreatePlayer(gfx::BHandle* _ppMesh)
-{
-    // -----------------------------------------------------------------------------
-    // Define the vertices of the mesh and their attributes.
-    // -----------------------------------------------------------------------------
-    static float s_Size = 0.3;
-
-    static float s_PlayerVertices[][3] =
-    {
-        { -4.0f * s_Size, -2.0f * s_Size, 0.0f * s_Size, },
-        {  4.0f * s_Size, -2.0f * s_Size, 0.0f * s_Size, },
-        {  0.0f * s_Size,  2.0f * s_Size, 0.0f * s_Size, },
-    };
-
-    static float s_PlayerColors[][4] =
-    {
-        { 0.0f, 1.0f, 0.0f, 1.0f, },        // Color of vertex 0.
-        { 0.0f, 1.0f, 0.0f, 1.0f, },        // Color of vertex 1.
-        { 0.0f, 1.0f, 0.0f, 1.0f, },        // Color of vertex 2.
-    };
-
-    // -----------------------------------------------------------------------------
-    // Define the topology of the mesh via indices. An index addresses a vertex from
-    // the array above. Three indices represent one triangle. When defining the 
-    // triangles of a mesh imagine that you are standing in front of the triangle 
-    // and looking to the center of the triangle. If the mesh represents a closed
-    // body such as a cube, your view position has to be outside of the body. Now
-    // define the indices of the addressed vertices of the triangle in counter-
-    // clockwise order.
-    // -----------------------------------------------------------------------------
-    static int s_PlayerIndices[][3] =
-    {
-        { 0, 1, 2, },
-    };
-
-
-    // -----------------------------------------------------------------------------
-    // Define the mesh and its material. The material defines the look of the
-    // surface covering the mesh. If the material should contain normals, colors, or
-    // texture coordinates then their number has to match the number of vertices.
-    // If you do not support normals in a mesh, YoshiX will not apply lighting to
-    // this mesh. A textured mesh always has to contain texture coordinates and a
-    // handle to a texture. A mesh always has to contain vertices and indices.
-    // -----------------------------------------------------------------------------
-    gfx::SMeshInfo MeshInfo;
-
-    MeshInfo.m_pVertices = &s_PlayerVertices[0][0];
-    MeshInfo.m_pNormals = nullptr;
-    MeshInfo.m_pColors = &s_PlayerColors[0][0];
-    MeshInfo.m_pTexCoords = nullptr;
-    MeshInfo.m_NumberOfVertices = 3;
-    MeshInfo.m_NumberOfIndices = 3;
-    MeshInfo.m_pIndices = &s_PlayerIndices[0][0];
-    MeshInfo.m_pTexture = nullptr;
-
-    CreateMesh(MeshInfo, _ppMesh);
-}
-
-
-void CPlayer::OnUpdate(SKeyState _keyState)
-{
-    switch (m_State)
-    {
-    case CPlayer::Idle:
-    {
-        if (_keyState.m_IsLArrowDown) m_State = CPlayer::Left;
-        if (_keyState.m_IsRArrowDown) m_State = CPlayer::Right;
-        if (_keyState.m_IsSpaceDown)  m_State = CPlayer::Shoot;
-    }
-    break;
-
-    case CPlayer::Left:
-    {
-        m_Translation[0] -= m_Speed;
-
-        if (!_keyState.m_IsLArrowDown) m_State = CPlayer::Idle;
-    }
-    break;
-
-    case CPlayer::Right:
-    {
-        m_Translation[0] += m_Speed;
-
-        if (!_keyState.m_IsRArrowDown) m_State = CPlayer::Idle;
-    }
-    break;
-
-    case CPlayer::Shoot:
-    {
-        std::cout << "shoot\n";
-
-        //CBullet bullet;
-        //bullet.m_Translation[0] = m_Translation[0];
-        //bullet.m_State = CBullet::Up;
-        //gfx::BHandle pBulletMesh = nullptr;
-        //bullet.CreateBullet(&pBulletMesh);
-        //gfx::ReleaseMesh(pBulletMesh);
-        //float WorldMatrix[16];
-        //gfx::GetTranslationMatrix(bullet.m_Translation[0], bullet.m_Translation[1], 0.0f, WorldMatrix);
-        //gfx::SetWorldMatrix(WorldMatrix);
-        //gfx::DrawMesh(pBulletMesh);
-
-        m_State = CPlayer::Cooldown;
-    }
-    break;
-    case CPlayer::Cooldown:
-    {
-        std::cout << "cooldown\n";
-        if (!_keyState.m_IsSpaceDown) m_State = CPlayer::Idle;
-    }
-    break;
-    }
+    this->m_Speed = 0.1;
+    this->m_Translation[1] = -3.5f;
 }
 
 CPlayer::~CPlayer()
 {
+    for (CBullet* b : m_Bullets)
+    {
+        delete b;
+    }
+}
+
+void CPlayer::OnUpdate(SKeyState* _KeyState)
+{
+    if (_KeyState->m_isAdown) Move(EPlayerMoveState::LEFT);
+    if (_KeyState->m_isDdown) Move(EPlayerMoveState::RIGHT);
+    Shoot(_KeyState);
+
+    for (CBullet* b : this->m_Bullets)
+    {
+        b->OnUpdate();
+    }
+
+    // !todo fix destructor
+    /*
+    if (this->m_Bullets[0]->m_Translation[1] > TOP_BORDER)
+    {
+        this->m_Bullets.erase(this->m_Bullets.begin());
+    }
+    */
+
+    fillVertices();
+}
+
+void CPlayer::Move(EPlayerMoveState _State) {
+    float* XPos = &m_Translation[0];
+    float halfWidth = (fabsf((float)m_PointA[0]) + fabsf((float)m_PointB[0]))/2;
+
+    if (_State == EPlayerMoveState::LEFT)  *XPos -= m_Speed;
+    if (_State == EPlayerMoveState::RIGHT) *XPos += m_Speed;
+    if (*XPos < LEFT_BORDER + halfWidth)   *XPos =  LEFT_BORDER  + halfWidth;
+    if (*XPos > RIGHT_BORDER - halfWidth)  *XPos =  RIGHT_BORDER - halfWidth;
+}
+
+void CPlayer::Shoot(SKeyState* _KeyState) {
+    switch (m_ShootState)
+    {
+    case EPlayerShootState::READY:
+        if (_KeyState->m_isSPACEdown) m_ShootState = EPlayerShootState::SHOOT;
+        break;
+    case EPlayerShootState::SHOOT:
+        this->m_Bullets.push_back(new CBullet(this->m_Translation[0], this->m_Translation[1]));
+        m_ShootState = EPlayerShootState::COOLDOWN;
+        break;
+    case EPlayerShootState::COOLDOWN:
+        if (!_KeyState->m_isSPACEdown) m_ShootState = EPlayerShootState::READY;
+        break;
+    }
 }

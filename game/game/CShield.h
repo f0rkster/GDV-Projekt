@@ -1,29 +1,18 @@
 #pragma once
+#include "CRectangle.h"
 
-#include "yoshix_fix_function.h"
-
-#include "CEntity.h"
-
-class CShield : public CEntity
+class CShield : public CRectangle
 {
 private:
-    enum EState
-    {
-        Idle,
-        Impact,
-        Dead,
-    };
-
-    static const int m_MaxHealth = 5;
-
-    int     m_Health;
-
-    EState  m_State;
+    static constexpr float m_PointA[3] = { -1.0f, -0.25f, 0.0f };
+    static constexpr float m_PointB[3] = {  1.0f, -0.25f, 0.0f };
+    static constexpr float m_PointC[3] = {  1.0f,  0.25f, 0.0f };
+    static constexpr float m_PointD[3] = { -1.0f,  0.25f, 0.0f };
+    static constexpr float m_Color[4] =  {  0.0f,  0.5f, 1.0f, 1.0f };
 
 public:
-
-    CShield();
-    void CreateShield(gfx::BHandle* _ppMesh);
-    void OnUpdate();
+    CShield(float _X, float _Y);
     ~CShield();
+
 };
+

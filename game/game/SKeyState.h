@@ -1,8 +1,7 @@
 #pragma once
 
-struct SKeyState
-{
-    bool m_IsLArrowDown;
-    bool m_IsRArrowDown;
-    bool m_IsSpaceDown;
+struct SKeyState {
+    bool m_isAdown = false;
+    bool m_isDdown = false;
+    bool m_isSPACEdown = false;
 };

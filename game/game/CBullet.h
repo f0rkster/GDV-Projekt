@@ -1,25 +1,18 @@
 #pragma once
+#include "CRectangle.h"
 
-#include "yoshix_fix_function.h"
-
-#include "CEntity.h"
-
-class CBullet : public CEntity
+class CBullet : public CRectangle
 {
 private:
-    enum EState
-    {
-        Idle,
-        Up,
-        Down,
-    };
-
-    EState  m_State;
+    static constexpr float m_PointA[3] = { -0.025f, -0.1f, 0.0f };
+    static constexpr float m_PointB[3] = {  0.025f, -0.1f, 0.0f };
+    static constexpr float m_PointC[3] = {  0.025f,  0.1f, 0.0f };
+    static constexpr float m_PointD[3] = { -0.025f,  0.1f, 0.0f };
+    static constexpr float m_Color[4] = { 1.0f,  1.0f, 1.0f, 1.0f };
 
 public:
-
-    CBullet();
-    void CreateBullet(gfx::BHandle* _ppMesh);
-    void OnUpdate();
+    CBullet(float _X, float _Y);
     ~CBullet();
+    void OnUpdate();
 };
+
