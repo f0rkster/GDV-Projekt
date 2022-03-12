@@ -133,7 +133,7 @@ bool CApp::InternOnUpdate() {
 
     float ViewMatrix[16];
 
-    m_pGame->runGame(&m_KeyState);
+    m_pGame->RunGame(&m_KeyState);
 
     // -----------------------------------------------------------------------------
     // Define position and orientation of the camera in the world.

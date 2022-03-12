@@ -15,9 +15,14 @@ public:
     CGame(gfx::BHandle* _ppPlayerMesh, gfx::BHandle* _ppShieldMesh, gfx::BHandle* _ppEnemyMesh, gfx::BHandle* _ppBulletMesh);
     ~CGame();
 
-    void initGame();
-    void runGame(SKeyState* _KeyState);
-    void finalizedGame();
+    void InitGame();
+    void RunGame(SKeyState* _KeyState);
+    void FinalizedGame();
+
+private:
+    void CreateEnemy();
+    void HandleEnemySpeed();
+    bool BulletIsInEnemy(CEnemy* _e, CBullet* _b);
 
 private:
     int m_Ticks = 0;

@@ -161,6 +161,7 @@
     <ClCompile Include="CShapes.cpp" />
     <ClCompile Include="CShield.cpp" />
     <ClCompile Include="CTriangle.cpp" />
+    <ClCompile Include="CUitlity.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -172,6 +173,7 @@
     <ClInclude Include="CShapes.h" />
     <ClInclude Include="CShield.h" />
     <ClInclude Include="CTriangle.h" />
+    <ClInclude Include="CUitlity.h" />
     <ClInclude Include="Data.h" />
     <ClInclude Include="SKeyState.h" />
   </ItemGroup>
