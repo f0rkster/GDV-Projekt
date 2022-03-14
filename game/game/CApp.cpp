@@ -25,7 +25,7 @@ CApp::~CApp() {
 
 bool CApp::InternOnStartup() {
 
-    this->m_pGame = new CGame(&this->m_pPlayerMesh, &this->m_pShieldMesh, &this->m_pEnemyMesh, &this->m_pBulletMesh);
+    m_pGame = new CGame(&m_pPlayerMesh, &m_pShieldMesh, &m_pEnemyMesh, &m_pBulletMesh);
 
     // -----------------------------------------------------------------------------
     // Background
@@ -36,7 +36,7 @@ bool CApp::InternOnStartup() {
     float BackgroundD[3] = { -WIDTH / 2,  HEIGHT / 2, 0 };
     float BackgroundGreyValue = 0.15;
     float BackgroundColor[4] = { BackgroundGreyValue, BackgroundGreyValue, BackgroundGreyValue, 1.0f };
-    this->m_Background = new CRectangle(BackgroundA, BackgroundB, BackgroundC, BackgroundD, BackgroundColor);
+    m_Background = new CRectangle(BackgroundA, BackgroundB, BackgroundC, BackgroundD, BackgroundColor);
 
     float BottomLineHeight = 0.05f;
     float BottomLineA[3] = { -WIDTH / 2, -BottomLineHeight / 2, 0 };
@@ -44,9 +44,9 @@ bool CApp::InternOnStartup() {
     float BottomLineC[3] = {  WIDTH / 2,  BottomLineHeight / 2, 0 };
     float BottomLineD[3] = { -WIDTH / 2,  BottomLineHeight / 2, 0 };
     float BottomLineColor[4] = { 1.0f, 1.0f, 0.0f, 1.0f };
-    this->m_BottomLine = new CRectangle(BottomLineA, BottomLineB, BottomLineC, BottomLineD, BottomLineColor);
+    m_BottomLine = new CRectangle(BottomLineA, BottomLineB, BottomLineC, BottomLineD, BottomLineColor);
     float YPos = -1.5f;
-    this->m_BottomLine->m_Translation[1] = YPos;
+    m_BottomLine->m_Translation[1] = YPos;
 
 
     // -----------------------------------------------------------------------------
@@ -69,37 +69,37 @@ bool CApp::InternOnShutdown() {
 }
 
 bool CApp::InternOnCreateMeshes() {
-    gfx::CreateMesh(m_pGame->m_pPlayer->getMeshInfo(), &this->m_pPlayerMesh);
+    gfx::CreateMesh(m_pGame->m_pPlayer->getMeshInfo(), &m_pPlayerMesh);
 
     for (CShield* s : m_pGame->m_pShields)
     {
-        gfx::CreateMesh(s->getMeshInfo(), &this->m_pShieldMesh);
+        gfx::CreateMesh(s->getMeshInfo(), &m_pShieldMesh);
     }
 
     for (CBullet* b : m_pGame->m_pPlayer->m_Bullets)
     {
-        gfx::CreateMesh(b->getMeshInfo(), &this->m_pBulletMesh);
+        gfx::CreateMesh(b->getMeshInfo(), &m_pBulletMesh);
     }
 
     for (CEnemy* e : m_pGame->m_pEnemies)
     {
-        gfx::CreateMesh(e->getMeshInfo(), &this->m_pEnemyMesh);
+        gfx::CreateMesh(e->getMeshInfo(), &m_pEnemyMesh);
     }
 
 
-    gfx::CreateMesh(m_BottomLine->getMeshInfo(), &this->m_pBottomLineMesh);
-    gfx::CreateMesh(m_Background->getMeshInfo(), &this->m_pBackgroundMesh);
+    gfx::CreateMesh(m_BottomLine->getMeshInfo(), &m_pBottomLineMesh);
+    gfx::CreateMesh(m_Background->getMeshInfo(), &m_pBackgroundMesh);
     return true;
 }
 
 bool CApp::InternOnReleaseMeshes() {
 
-    gfx::ReleaseMesh(this->m_pPlayerMesh);
-    gfx::ReleaseMesh(this->m_pShieldMesh);
-    gfx::ReleaseMesh(this->m_pBulletMesh);
-    gfx::ReleaseMesh(this->m_pEnemyMesh);
-    gfx::ReleaseMesh(this->m_pBottomLineMesh);
-    gfx::ReleaseMesh(this->m_pBackgroundMesh);
+    gfx::ReleaseMesh(m_pPlayerMesh);
+    gfx::ReleaseMesh(m_pShieldMesh);
+    gfx::ReleaseMesh(m_pBulletMesh);
+    gfx::ReleaseMesh(m_pEnemyMesh);
+    gfx::ReleaseMesh(m_pBottomLineMesh);
+    gfx::ReleaseMesh(m_pBackgroundMesh);
     return true;
 }
 
@@ -157,24 +157,24 @@ bool CApp::InternOnFrame() {
     // -----------------------------------------------------------------------------
     gfx::GetTranslationMatrix(m_pGame->m_pPlayer->m_Translation[0], m_pGame->m_pPlayer->m_Translation[1], m_pGame->m_pPlayer->m_Translation[2], WorldMatrix);
     gfx::SetWorldMatrix(WorldMatrix);
-    gfx::DrawMesh(this->m_pPlayerMesh);
+    gfx::DrawMesh(m_pPlayerMesh);
 
     for (CShield* s : m_pGame->m_pShields) {
         gfx::GetTranslationMatrix(s->m_Translation[0], s->m_Translation[1], s->m_Translation[2], WorldMatrix);
         gfx::SetWorldMatrix(WorldMatrix);
-        gfx::DrawMesh(this->m_pShieldMesh);
+        gfx::DrawMesh(m_pShieldMesh);
     }
 
     for (CBullet* b : m_pGame->m_pPlayer->m_Bullets) {
         gfx::GetTranslationMatrix(b->m_Translation[0], b->m_Translation[1], b->m_Translation[2], WorldMatrix);
         gfx::SetWorldMatrix(WorldMatrix);
-        gfx::DrawMesh(this->m_pBulletMesh);
+        gfx::DrawMesh(m_pBulletMesh);
     }
 
     for (CEnemy* e : m_pGame->m_pEnemies) {
         gfx::GetTranslationMatrix(e->m_Translation[0], e->m_Translation[1], e->m_Translation[2], WorldMatrix);
         gfx::SetWorldMatrix(WorldMatrix);
-        gfx::DrawMesh(this->m_pEnemyMesh);
+        gfx::DrawMesh(m_pEnemyMesh);
     }
 
 
@@ -183,11 +183,11 @@ bool CApp::InternOnFrame() {
     // -----------------------------------------------------------------------------
     gfx::GetTranslationMatrix(m_BottomLine->m_Translation[0], m_BottomLine->m_Translation[1], m_BottomLine->m_Translation[2], WorldMatrix);
     gfx::SetWorldMatrix(WorldMatrix);
-    gfx::DrawMesh(this->m_pBottomLineMesh);
+    gfx::DrawMesh(m_pBottomLineMesh);
 
     gfx::GetTranslationMatrix(m_Background->m_Translation[0], m_Background->m_Translation[1], m_Background->m_Translation[2], WorldMatrix);
     gfx::SetWorldMatrix(WorldMatrix);
-    gfx::DrawMesh(this->m_pBackgroundMesh);
+    gfx::DrawMesh(m_pBackgroundMesh);
 
     return true;
 }

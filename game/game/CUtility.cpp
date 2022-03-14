@@ -1,10 +1,10 @@
-#include "CUitlity.h"
+#include "CUtility.h"
 #include <iostream>
 
 //https://stackoverflow.com/questions/875103/how-do-i-erase-an-element-from-stdvector-by-index
 //https://www.geeksforgeeks.org/how-to-find-index-of-a-given-element-in-a-vector-in-cpp/
 
-int CUitlity::getVectorIndex(std::vector<CBullet*> v, CBullet* K)
+int CUtility::getVectorIndex(std::vector<CBullet*> v, CBullet* K)
 {
 	auto it = find(v.begin(), v.end(), K);
 
@@ -24,7 +24,7 @@ int CUitlity::getVectorIndex(std::vector<CBullet*> v, CBullet* K)
 	}
 }
 
-int CUitlity::getVectorIndex(std::vector<CEnemy*> v, CEnemy* K)
+int CUtility::getVectorIndex(std::vector<CEnemy*> v, CEnemy* K)
 {
 	auto it = find(v.begin(), v.end(), K);
 

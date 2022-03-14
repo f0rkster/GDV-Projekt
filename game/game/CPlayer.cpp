@@ -4,11 +4,11 @@
 #include <iostream>
 
 CPlayer::CPlayer()
-    :CTriangle((float*)this->m_PointA, (float*)this->m_PointB, (float*)this->m_PointC, (float*)this->m_Color)
+    :CTriangle((float*)m_PointA, (float*)m_PointB, (float*)m_PointC, (float*)m_Color)
     , m_ShootState(EPlayerShootState::READY)
 {
-    this->m_Speed = 0.1;
-    this->m_Translation[1] = -3.5f;
+    m_Speed = 0.1;
+    m_Translation[1] = -3.5f;
 }
 
 CPlayer::~CPlayer()
@@ -25,16 +25,16 @@ void CPlayer::OnUpdate(SKeyState* _KeyState)
     if (_KeyState->m_isDdown) Move(EPlayerMoveState::RIGHT);
     Shoot(_KeyState);
 
-    for (CBullet* b : this->m_Bullets)
+    for (CBullet* b : m_Bullets)
     {
         b->OnUpdate();
     }
 
     // !todo fix destructor
     /*
-    if (this->m_Bullets[0]->m_Translation[1] > TOP_BORDER)
+    if (m_Bullets[0]->m_Translation[1] > TOP_BORDER)
     {
-        this->m_Bullets.erase(this->m_Bullets.begin());
+        m_Bullets.erase(m_Bullets.begin());
     }
     */
 
@@ -58,7 +58,7 @@ void CPlayer::Shoot(SKeyState* _KeyState) {
         if (_KeyState->m_isSPACEdown) m_ShootState = EPlayerShootState::SHOOT;
         break;
     case EPlayerShootState::SHOOT:
-        this->m_Bullets.push_back(new CBullet(this->m_Translation[0], this->m_Translation[1]));
+        m_Bullets.push_back(new CBullet(m_Translation[0], m_Translation[1]));
         m_ShootState = EPlayerShootState::COOLDOWN;
         break;
     case EPlayerShootState::COOLDOWN:

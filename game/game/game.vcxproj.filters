@@ -48,7 +48,7 @@
     <ClCompile Include="CEnemy.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="CUitlity.cpp">
+    <ClCompile Include="CUtility.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
@@ -83,7 +83,7 @@
     <ClInclude Include="CEnemy.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="CUitlity.h">
+    <ClInclude Include="CUtility.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

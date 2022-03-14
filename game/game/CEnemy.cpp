@@ -2,11 +2,11 @@
 #include "Data.h"
 
 CEnemy::CEnemy(float _X, float _Y)
-    : CRectangle((float*)this->m_PointA, (float*)this->m_PointB, (float*)this->m_PointC, (float*)this->m_PointD, (float*)this->m_Color)
+    : CRectangle((float*)m_PointA, (float*)m_PointB, (float*)m_PointC, (float*)m_PointD, (float*)m_Color)
     , m_MoveState(EMoveState::RIGHT)
 {
-    this->m_Translation[0] = _X;
-    this->m_Translation[1] = _Y;
+    m_Translation[0] = _X;
+    m_Translation[1] = _Y;
 }
 
 CEnemy::~CEnemy()

@@ -3,7 +3,7 @@
 #include "CEnemy.h"
 #include <vector>
 
-class CUitlity
+class CUtility
 {
 public:
 	static int getVectorIndex(std::vector<CBullet*> v, CBullet* K);

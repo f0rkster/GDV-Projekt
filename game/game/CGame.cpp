@@ -1,6 +1,6 @@
 #include "CGame.h"
 #include "Data.h"
-#include "CUitlity.h"
+#include "CUtility.h"
 
 #include <iostream>
 
@@ -73,8 +73,8 @@ void CGame::RunGame(SKeyState* _KeyState)
             if (BulletIsInEnemy(e, b))
             {
                 
-                m_pPlayer->m_Bullets.erase(m_pPlayer->m_Bullets.begin() + CUitlity::getVectorIndex(m_pPlayer->m_Bullets, b));
-                m_pEnemies.erase(m_pEnemies.begin() + CUitlity::getVectorIndex(m_pEnemies, e));
+                m_pPlayer->m_Bullets.erase(m_pPlayer->m_Bullets.begin() + CUtility::getVectorIndex(m_pPlayer->m_Bullets, b));
+                m_pEnemies.erase(m_pEnemies.begin() + CUtility::getVectorIndex(m_pEnemies, e));
                 std::cout << "strike!\n";
             }
         }
