@@ -15,6 +15,28 @@ CApp::CApp()
     , m_pBottomLineMesh(nullptr)
     , m_pBackgroundMesh(nullptr)
 {
+
+    // -----------------------------------------------------------------------------
+    // Background
+    // -----------------------------------------------------------------------------
+    float BackgroundA[3] = { -WIDTH / 2, -HEIGHT / 2, 0 };
+    float BackgroundB[3] = { WIDTH / 2, -HEIGHT / 2, 0 };
+    float BackgroundC[3] = { WIDTH / 2,  HEIGHT / 2, 0 };
+    float BackgroundD[3] = { -WIDTH / 2,  HEIGHT / 2, 0 };
+    float BackgroundGreyValue = 0.15;
+    float BackgroundColor[4] = { BackgroundGreyValue, BackgroundGreyValue, BackgroundGreyValue, 1.0f };
+    m_Background = new CRectangle(BackgroundA, BackgroundB, BackgroundC, BackgroundD, BackgroundColor);
+
+    float BottomLineHeight = 0.05f;
+    float BottomLineA[3] = { -WIDTH / 2, -BottomLineHeight / 2, 0 };
+    float BottomLineB[3] = { WIDTH / 2, -BottomLineHeight / 2, 0 };
+    float BottomLineC[3] = { WIDTH / 2,  BottomLineHeight / 2, 0 };
+    float BottomLineD[3] = { -WIDTH / 2,  BottomLineHeight / 2, 0 };
+    float BottomLineColor[4] = { 1.0f, 1.0f, 0.0f, 1.0f };
+    m_BottomLine = new CRectangle(BottomLineA, BottomLineB, BottomLineC, BottomLineD, BottomLineColor);
+    float YPos = -1.5f;
+    m_BottomLine->m_Translation[1] = YPos;
+
 }
 
 CApp::~CApp() {
@@ -26,28 +48,6 @@ CApp::~CApp() {
 bool CApp::InternOnStartup() {
 
     m_pGame = new CGame(&m_pPlayerMesh, &m_pShieldMesh, &m_pEnemyMesh, &m_pBulletMesh);
-
-    // -----------------------------------------------------------------------------
-    // Background
-    // -----------------------------------------------------------------------------
-    float BackgroundA[3] = { -WIDTH / 2, -HEIGHT / 2, 0 };
-    float BackgroundB[3] = {  WIDTH / 2, -HEIGHT / 2, 0 };
-    float BackgroundC[3] = {  WIDTH / 2,  HEIGHT / 2, 0 };
-    float BackgroundD[3] = { -WIDTH / 2,  HEIGHT / 2, 0 };
-    float BackgroundGreyValue = 0.15;
-    float BackgroundColor[4] = { BackgroundGreyValue, BackgroundGreyValue, BackgroundGreyValue, 1.0f };
-    m_Background = new CRectangle(BackgroundA, BackgroundB, BackgroundC, BackgroundD, BackgroundColor);
-
-    float BottomLineHeight = 0.05f;
-    float BottomLineA[3] = { -WIDTH / 2, -BottomLineHeight / 2, 0 };
-    float BottomLineB[3] = {  WIDTH / 2, -BottomLineHeight / 2, 0 };
-    float BottomLineC[3] = {  WIDTH / 2,  BottomLineHeight / 2, 0 };
-    float BottomLineD[3] = { -WIDTH / 2,  BottomLineHeight / 2, 0 };
-    float BottomLineColor[4] = { 1.0f, 1.0f, 0.0f, 1.0f };
-    m_BottomLine = new CRectangle(BottomLineA, BottomLineB, BottomLineC, BottomLineD, BottomLineColor);
-    float YPos = -1.5f;
-    m_BottomLine->m_Translation[1] = YPos;
-
 
     // -----------------------------------------------------------------------------
     // Define the background color of the window. Colors are always 4D tuples,
@@ -133,7 +133,19 @@ bool CApp::InternOnUpdate() {
 
     float ViewMatrix[16];
 
-    m_pGame->RunGame(&m_KeyState);
+    switch (m_pGame->m_State)
+    {
+    case EGameState::START:
+        break;
+    case EGameState::RUN:
+        m_pGame->RunGame(&m_KeyState);
+        break;
+    case EGameState::GAMEOVER:
+        m_pGame->FinalizedGame();
+        break;
+    case EGameState::PAUSED:
+        break;
+    }
 
     // -----------------------------------------------------------------------------
     // Define position and orientation of the camera in the world.

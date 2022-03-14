@@ -11,7 +11,11 @@ CGame::CGame(gfx::BHandle* _ppPlayerMesh, gfx::BHandle* _ppShieldMesh, gfx::BHan
     , m_ppEnemyMesh(_ppEnemyMesh)
     , m_ppBulletMesh(_ppBulletMesh)
 {
-    this->InitGame();
+    do {
+        std::cout << '\n' << "Press the Enter key to continue.";
+    } while (std::cin.get() != '\n');
+    m_State = EGameState::RUN;
+    InitGame();
 }
 
 CGame::~CGame()
@@ -75,14 +79,44 @@ void CGame::RunGame(SKeyState* _KeyState)
                 
                 m_pPlayer->m_Bullets.erase(m_pPlayer->m_Bullets.begin() + CUtility::getVectorIndex(m_pPlayer->m_Bullets, b));
                 m_pEnemies.erase(m_pEnemies.begin() + CUtility::getVectorIndex(m_pEnemies, e));
-                std::cout << "strike!\n";
             }
         }
+    }
+
+    if (m_pEnemies.front()->m_Translation[1] <= -1.5f)
+    {
+        m_State = EGameState::GAMEOVER;
     }
 }
 
 void CGame::FinalizedGame()
 {
+    do {
+        std::cout << '\n' << "Press the Enter key to restart game.";
+    } while (std::cin.get() != '\n');
+    m_State = EGameState::START;
+    RestartGame();
+}
+
+void CGame::RestartGame() {
+    delete m_pPlayer;
+
+    for (CShield* s : m_pShields)
+    {
+        delete s;
+    }
+
+    for (CBullet* b : m_pPlayer->m_Bullets)
+    {
+        delete b;
+    }
+
+    for (CEnemy* e : m_pEnemies)
+    {
+        delete e;
+    }
+
+    InitGame();
 }
 
 void CGame::CreateEnemy() {

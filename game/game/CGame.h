@@ -9,7 +9,7 @@
 #include "CEnemy.h"
 #include "SKeyState.h"
 
-enum EGameState {START, RUN, PAUSED, GAMEOVER};
+enum class EGameState {START, RUN, PAUSED, GAMEOVER};
 class CGame {
 public:
     CGame(gfx::BHandle* _ppPlayerMesh, gfx::BHandle* _ppShieldMesh, gfx::BHandle* _ppEnemyMesh, gfx::BHandle* _ppBulletMesh);
@@ -20,6 +20,7 @@ public:
     void FinalizedGame();
 
 private:
+    void RestartGame();
     void CreateEnemy();
     void HandleEnemySpeed();
     bool BulletIsInEnemy(CEnemy* _e, CBullet* _b);

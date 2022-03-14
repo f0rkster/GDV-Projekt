@@ -4,6 +4,8 @@
 #include "CBullet.h"
 #include <vector>
 
+enum class EPlayerMoveState {LEFT, RIGHT};
+enum class EPlayerShootState {READY, SHOOT, COOLDOWN};
 class CPlayer : public CTriangle{
 private:
     static constexpr float m_PointA[3] = { -0.5f, -0.5f, 0.0f };
@@ -12,8 +14,6 @@ private:
     static constexpr float m_Color[4]  = {  0.0f,  1.0f, 0.0f , 1.0f};
 
 public:
-    enum EPlayerMoveState {LEFT, RIGHT};
-    enum EPlayerShootState {READY, SHOOT, COOLDOWN};
     CPlayer();
     ~CPlayer();
     void OnUpdate(SKeyState* _KeyState);
