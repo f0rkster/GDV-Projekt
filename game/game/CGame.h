@@ -9,7 +9,7 @@
 #include "CEnemy.h"
 #include "SKeyState.h"
 
-enum class EGameState {START, RUN, PAUSED, GAMEOVER};
+enum class EGameState {START, RUN, /*PAUSED,*/ GAMEOVER};
 class CGame {
 public:
     CGame(gfx::BHandle* _ppPlayerMesh, gfx::BHandle* _ppShieldMesh, gfx::BHandle* _ppEnemyMesh, gfx::BHandle* _ppBulletMesh);

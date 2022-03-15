@@ -109,6 +109,9 @@ void CGame::FinalizedGame()
     //RestartGame();
 }
 
+/*
+!! Not Done
+
 void CGame::RestartGame() {
     delete m_pPlayer;
 
@@ -134,7 +137,7 @@ void CGame::RestartGame() {
 
     InitGame();
 }
-
+*/
 void CGame::CreateEnemy() {
     float padding = 0.5f;
     m_pEnemies.push_back(new CEnemy(LEFT_BORDER + padding, TOP_BORDER - padding));

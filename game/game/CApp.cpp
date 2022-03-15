@@ -143,8 +143,8 @@ bool CApp::InternOnUpdate() {
     case EGameState::GAMEOVER:
         m_pGame->FinalizedGame();
         break;
-    case EGameState::PAUSED:
-        break;
+    /*case EGameState::PAUSED:
+        break;*/
     }
 
     // -----------------------------------------------------------------------------
