@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Quelldateien\example">
+      <UniqueIdentifier>{b3ff091c-8cb1-42cf-a288-0fef57820e10}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -86,5 +89,67 @@
     <ClInclude Include="CUtility.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cube_colored_lighted_per_triangle.cpp">
+      <Filter>Quelldateien\example</Filter>
+    </None>
+    <None Include="cube_colored_lighted_per_vertex.cpp">
+      <Filter>Quelldateien\example</Filter>
+    </None>
+    <None Include="cube_simple.cpp">
+      <Filter>Quelldateien\example</Filter>
+    </None>
+    <None Include="cube_textured_lighted.cpp">
+      <Filter>Quelldateien\example</Filter>
+    </None>
+    <None Include="example.cpp">
+      <Filter>Quelldateien\example</Filter>
+    </None>
+    <None Include="jump_and_run.cpp">
+      <Filter>Quelldateien\example</Filter>
+    </None>
+    <None Include="quad_colored.cpp">
+      <Filter>Quelldateien\example</Filter>
+    </None>
+    <None Include="quad_colored_lighted.cpp">
+      <Filter>Quelldateien\example</Filter>
+    </None>
+    <None Include="quad_simple.cpp">
+      <Filter>Quelldateien\example</Filter>
+    </None>
+    <None Include="quad_simple_lighted.cpp">
+      <Filter>Quelldateien\example</Filter>
+    </None>
+    <None Include="quad_textured.cpp">
+      <Filter>Quelldateien\example</Filter>
+    </None>
+    <None Include="quad_textured_alpha.cpp">
+      <Filter>Quelldateien\example</Filter>
+    </None>
+    <None Include="quad_textured_lighted.cpp">
+      <Filter>Quelldateien\example</Filter>
+    </None>
+    <None Include="sphere_textured.cpp">
+      <Filter>Quelldateien\example</Filter>
+    </None>
+    <None Include="triangle_colored.cpp">
+      <Filter>Quelldateien\example</Filter>
+    </None>
+    <None Include="triangle_colored_lighted.cpp">
+      <Filter>Quelldateien\example</Filter>
+    </None>
+    <None Include="triangle_simple.cpp">
+      <Filter>Quelldateien\example</Filter>
+    </None>
+    <None Include="triangle_simple_lighted.cpp">
+      <Filter>Quelldateien\example</Filter>
+    </None>
+    <None Include="triangle_textured.cpp">
+      <Filter>Quelldateien\example</Filter>
+    </None>
+    <None Include="triangle_textured_lighted.cpp">
+      <Filter>Quelldateien\example</Filter>
+    </None>
   </ItemGroup>
 </Project>

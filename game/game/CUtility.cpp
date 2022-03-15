@@ -43,3 +43,23 @@ int CUtility::getVectorIndex(std::vector<CEnemy*> v, CEnemy* K)
 		std::cout << "-1" << std::endl;
 	}
 }
+
+int CUtility::getVectorIndex(std::vector<CShield*> v, CShield* K)
+{
+	auto it = find(v.begin(), v.end(), K);
+
+	// If element was found
+	if (it != v.end())
+	{
+
+		// calculating the index
+		// of K
+		int index = it - v.begin();
+		return index;
+	}
+	else {
+		// If the element is not
+		// present in the vector
+		std::cout << "-1" << std::endl;
+	}
+}

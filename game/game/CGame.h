@@ -24,6 +24,10 @@ private:
     void CreateEnemy();
     void HandleEnemySpeed();
     bool BulletIsInEnemy(CEnemy* _e, CBullet* _b);
+    bool BulletIsInShield(CShield* _s, CBullet* _b);
+    void EnemyActions();
+    void CollisionControll();
+    void RandomEnemyShoot();
 
 private:
     int m_Ticks = 0;
@@ -43,5 +47,6 @@ public:
     CPlayer* m_pPlayer;
     std::vector<CShield*> m_pShields;
     std::vector<CEnemy*> m_pEnemies;
+    std::vector<CBullet*> m_EnemieBullets;
 
 };

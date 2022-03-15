@@ -13,6 +13,7 @@ private:
 public:
     CShield(float _X, float _Y);
     ~CShield();
-
+    int m_CurrentHealth;
+    void Strike();
 };
 

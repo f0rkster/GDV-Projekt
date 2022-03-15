@@ -4,8 +4,6 @@
 #include "CApp.h"
 
 /* TODO
-    1. Bullets Maximal 3 auf Screen
-    2. Shield implementieren
     3. Game Finalize
     4. HighScore
 */

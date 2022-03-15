@@ -30,13 +30,11 @@ void CPlayer::OnUpdate(SKeyState* _KeyState)
         b->OnUpdate();
     }
 
-    // !todo fix destructor
-    /*
-    if (m_Bullets[0]->m_Translation[1] > TOP_BORDER)
+
+    if (!m_Bullets.empty() && m_Bullets[0]->m_Translation[1] > TOP_BORDER)
     {
         m_Bullets.erase(m_Bullets.begin());
     }
-    */
 
     fillVertices();
 }
@@ -58,7 +56,8 @@ void CPlayer::Shoot(SKeyState* _KeyState) {
         if (_KeyState->m_isSPACEdown) m_ShootState = EPlayerShootState::SHOOT;
         break;
     case EPlayerShootState::SHOOT:
-        m_Bullets.push_back(new CBullet(m_Translation[0], m_Translation[1]));
+        if (m_Bullets.size() < m_MaxBullets)
+            m_Bullets.push_back(new CBullet(m_Translation[0], m_Translation[1], EBulletState::UP));
         m_ShootState = EPlayerShootState::COOLDOWN;
         break;
     case EPlayerShootState::COOLDOWN:

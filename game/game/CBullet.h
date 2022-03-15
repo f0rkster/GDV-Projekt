@@ -1,6 +1,7 @@
 #pragma once
 #include "CRectangle.h"
 
+enum class EBulletState {DOWN, UP};
 class CBullet : public CRectangle
 {
 private:
@@ -11,8 +12,10 @@ private:
     static constexpr float m_Color[4] = { 1.0f,  1.0f, 1.0f, 1.0f };
 
 public:
-    CBullet(float _X, float _Y);
+    CBullet(float _X, float _Y, EBulletState _State);
     ~CBullet();
     void OnUpdate();
+
+    EBulletState m_State;
 };
 

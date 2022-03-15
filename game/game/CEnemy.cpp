@@ -22,24 +22,24 @@ void CEnemy::OnUpdate()
         if (m_Translation[0] <= LEFT_BORDER + padding)
         {
             m_MoveState = EMoveState::DOWN;
-            move(m_MoveState);
+            Move(m_MoveState);
             m_MoveState = EMoveState::RIGHT;
         }
         else
         {
-            move(m_MoveState);
+            Move(m_MoveState);
         }
         break;
     case EMoveState::RIGHT:
         if (m_Translation[0] >= RIGHT_BORDER - padding)
         {
             m_MoveState = EMoveState::DOWN;
-            move(m_MoveState);
+            Move(m_MoveState);
             m_MoveState = EMoveState::LEFT;
         }
         else
         {
-            move(m_MoveState);
+            Move(m_MoveState);
         }
         break;
     default:
@@ -47,7 +47,7 @@ void CEnemy::OnUpdate()
     }
 }
 
-void CEnemy::move(EMoveState _State)
+void CEnemy::Move(EMoveState _State)
 {
     switch (_State)
     {

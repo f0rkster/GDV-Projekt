@@ -19,6 +19,6 @@ public:
     EMoveState m_MoveState;
 
 private:
-    void move(EMoveState _State);
+    void Move(EMoveState _State);
 };
 

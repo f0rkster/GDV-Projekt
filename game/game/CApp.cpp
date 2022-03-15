@@ -189,6 +189,13 @@ bool CApp::InternOnFrame() {
         gfx::DrawMesh(m_pEnemyMesh);
     }
 
+    for (CBullet* b : m_pGame->m_EnemieBullets) {
+        gfx::GetTranslationMatrix(b->m_Translation[0], b->m_Translation[1], b->m_Translation[2], WorldMatrix);
+        gfx::SetWorldMatrix(WorldMatrix);
+        gfx::DrawMesh(m_pBulletMesh);
+    }
+
+
 
     // -----------------------------------------------------------------------------
     // Background

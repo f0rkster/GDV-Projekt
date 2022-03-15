@@ -161,8 +161,28 @@
     <ClCompile Include="CShapes.cpp" />
     <ClCompile Include="CShield.cpp" />
     <ClCompile Include="CTriangle.cpp" />
+    <None Include="cube_colored_lighted_per_triangle.cpp" />
+    <None Include="cube_colored_lighted_per_vertex.cpp" />
+    <None Include="cube_simple.cpp" />
+    <None Include="cube_textured_lighted.cpp" />
     <ClCompile Include="CUtility.cpp" />
+    <None Include="example.cpp" />
+    <None Include="jump_and_run.cpp" />
     <ClCompile Include="main.cpp" />
+    <None Include="quad_colored.cpp" />
+    <None Include="quad_colored_lighted.cpp" />
+    <None Include="quad_simple.cpp" />
+    <None Include="quad_simple_lighted.cpp" />
+    <None Include="quad_textured.cpp" />
+    <None Include="quad_textured_alpha.cpp" />
+    <None Include="quad_textured_lighted.cpp" />
+    <None Include="sphere_textured.cpp" />
+    <None Include="triangle_colored.cpp" />
+    <None Include="triangle_colored_lighted.cpp" />
+    <None Include="triangle_simple.cpp" />
+    <None Include="triangle_simple_lighted.cpp" />
+    <None Include="triangle_textured.cpp" />
+    <None Include="triangle_textured_lighted.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CBullet.h" />
