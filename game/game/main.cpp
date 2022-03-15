@@ -3,11 +3,6 @@
 
 #include "CApp.h"
 
-/* TODO
-    3. Game Finalize
-    4. HighScore
-*/
-
 int main()
 {
     CApp Application;

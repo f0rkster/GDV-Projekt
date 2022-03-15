@@ -9,7 +9,7 @@ public:
     static constexpr float s_StandardC[3] = { 0.0f,  2.0f, 0.0f };
     static constexpr float s_StandardColor[4] = { 1.0f,  1.0f, 1.0f, 1.0f };
 
-private:
+public:
     float m_PointA[3];
     float m_PointB[3];
     float m_PointC[3];

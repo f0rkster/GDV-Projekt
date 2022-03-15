@@ -3,6 +3,7 @@
 #include "CUtility.h"
 
 #include <iostream>
+#include <cstdlib>
 #include <random>
 
 CGame::CGame(gfx::BHandle* _ppPlayerMesh, gfx::BHandle* _ppShieldMesh, gfx::BHandle* _ppEnemyMesh, gfx::BHandle* _ppBulletMesh)
@@ -13,6 +14,19 @@ CGame::CGame(gfx::BHandle* _ppPlayerMesh, gfx::BHandle* _ppShieldMesh, gfx::BHan
     , m_ppBulletMesh(_ppBulletMesh)
 {
     do {
+        std::system("CLS");
+        std::cout << "Welcome to Matthias Gabel's GDV project." << std::endl;
+        std::cout << std::endl;
+        std::cout << "Instructions:" << std::endl;
+        std::cout << "The blue shields protect you from some enemy missiles. \nBut be careful, you can also damage your shields." << std::endl;
+        std::cout << std::endl;
+        std::cout << "Move with 'A' and 'D' or with the arrow keys. \nFire projectiles with 'SPACE'." << std::endl;
+        std::cout << std::endl;
+        std::cout << "You only have one life so take good care of it." << std::endl;
+        std::cout << std::endl;
+        std::cout << "The goal of the game is to survive as long as possible." << std::endl;
+        std::cout << std::endl;
+        std::cout << "The game is over when the enemies reach the baseline or you get hit." << std::endl;
         std::cout << '\n' << "Press the Enter key to continue.";
     } while (std::cin.get() != '\n');
     m_State = EGameState::RUN;
@@ -77,15 +91,22 @@ void CGame::RunGame(SKeyState* _KeyState)
     {
         m_State = EGameState::GAMEOVER;
     }
+    if (!m_pPlayer->m_IsPlayerAlive)
+    {
+        m_State = EGameState::GAMEOVER;
+    }
 }
 
 void CGame::FinalizedGame()
 {
     do {
-        std::cout << '\n' << "Press the Enter key to restart game.";
+        std::system("CLS");
+        std::cout << "Congratulation your Score is " << m_Score << "!";
+        std::cout << std::endl;
+        //std::cout << '\n' << "Press the Enter key to restart game.";
     } while (std::cin.get() != '\n');
-    m_State = EGameState::START;
-    RestartGame();
+    //m_State = EGameState::START;
+    //RestartGame();
 }
 
 void CGame::RestartGame() {
@@ -185,6 +206,34 @@ bool CGame::BulletIsInShield(CShield* _s, CBullet* _b)
     return true;
 }
 
+bool CGame::BulletIsInPlayer(CPlayer* _p, CBullet* _b)
+{
+    // https://www.geeksforgeeks.org/find-two-rectangles-overlap/
+
+    float l1x = _p->CTriangle::m_PointA[0] + _p->m_Translation[0];
+    float l1y = _p->CTriangle::m_PointC[1] + _p->m_Translation[1];
+    float r1x = _p->CTriangle::m_PointB[0] + _p->m_Translation[0];
+    float r1y = _p->CTriangle::m_PointB[1] + _p->m_Translation[1];
+    float l2x = _b->CRectangle::m_PointD[0] + _b->m_Translation[0];
+    float l2y = _b->CRectangle::m_PointD[1] + _b->m_Translation[1];
+    float r2x = _b->CRectangle::m_PointB[0] + _b->m_Translation[0];
+    float r2y = _b->CRectangle::m_PointB[1] + _b->m_Translation[1];
+
+    // To check if either rectangle is actually a line
+    // For example :  l1 ={-1,0}  r1={1,1}  l2={0,-1}
+    // r2={0,1}
+
+    // If one rectangle is on left side of other
+    if (r1x < l2x || l1x > r2x)
+        return false;
+
+    // If one rectangle is above other
+    if (l1y < r2y || r1y > l2y)
+        return false;
+
+    return true;
+}
+
 void CGame::EnemyActions()
 {
     m_Ticks++;
@@ -198,7 +247,7 @@ void CGame::EnemyActions()
         RandomEnemyShoot();
         CreateEnemy();
         HandleEnemySpeed();
-
+        m_Score += 1;
         m_Ticks = 0;
     }
     for (CBullet* b : m_EnemieBullets)
@@ -215,7 +264,7 @@ void CGame::CollisionControll()
         {
             if (BulletIsInEnemy(e, b))
             {
-
+                m_Score += 100;
                 m_pPlayer->m_Bullets.erase(m_pPlayer->m_Bullets.begin() + CUtility::getVectorIndex(m_pPlayer->m_Bullets, b));
                 m_pEnemies.erase(m_pEnemies.begin() + CUtility::getVectorIndex(m_pEnemies, e));
             }
@@ -238,9 +287,9 @@ void CGame::CollisionControll()
         }
     }
 
-    for (CShield* s : m_pShields)
+    for (CBullet* b : m_EnemieBullets)
     {
-        for (CBullet* b : m_EnemieBullets)
+        for (CShield* s : m_pShields)
         {
             if (BulletIsInShield(s, b))
             {
@@ -252,6 +301,7 @@ void CGame::CollisionControll()
                 }
             }
         }
+        if (BulletIsInPlayer(m_pPlayer, b)) m_pPlayer->m_IsPlayerAlive = false;
     }
 }
 

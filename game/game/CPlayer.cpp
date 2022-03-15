@@ -6,6 +6,7 @@
 CPlayer::CPlayer()
     :CTriangle((float*)m_PointA, (float*)m_PointB, (float*)m_PointC, (float*)m_Color)
     , m_ShootState(EPlayerShootState::READY)
+    , m_IsPlayerAlive(true)
 {
     m_Speed = 0.1;
     m_Translation[1] = -3.5f;

@@ -6,6 +6,7 @@
 
 enum class EPlayerMoveState {LEFT, RIGHT};
 enum class EPlayerShootState {READY, SHOOT, COOLDOWN};
+
 class CPlayer : public CTriangle{
 private:
     static constexpr float m_PointA[3] = { -0.5f, -0.5f, 0.0f };
@@ -19,6 +20,7 @@ public:
     void OnUpdate(SKeyState* _KeyState);
     EPlayerShootState m_ShootState;
     std::vector<CBullet*> m_Bullets;
+    bool m_IsPlayerAlive;
 private:
     void Move(EPlayerMoveState _State);
     void Shoot(SKeyState* _KeyState);

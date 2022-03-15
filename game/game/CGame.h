@@ -25,6 +25,7 @@ private:
     void HandleEnemySpeed();
     bool BulletIsInEnemy(CEnemy* _e, CBullet* _b);
     bool BulletIsInShield(CShield* _s, CBullet* _b);
+    bool BulletIsInPlayer(CPlayer* _p, CBullet* _b);
     void EnemyActions();
     void CollisionControll();
     void RandomEnemyShoot();
@@ -34,6 +35,7 @@ private:
     int m_MaxTicks = 80;
     int m_SpeedUpInterval = 0;
     int m_MaxSpeedUpInterval = 10;
+    int m_Score = 0;
 
 
 public: 
